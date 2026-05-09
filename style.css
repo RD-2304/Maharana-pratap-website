@@ -1837,3 +1837,35 @@ nav ul li a {
         height: 20px;
     }
 }
+/* Disclaimer Container */
+.ai-disclaimer {
+    width: 100%;
+    overflow: hidden;
+    background: #fff3cd;
+    border: 1px solid #f5c06f;
+    border-radius: 10px;
+    padding: 10px 0;
+    margin: 15px 0;
+    position: relative;
+    white-space: nowrap;
+}
+
+/* Scrolling Text */
+.scroll-text {
+    display: inline-block;
+    color: #8a5a00;
+    font-size: 14px;
+    font-weight: 600;
+    padding-left: 100%;
+    animation: scrollDisclaimer 18s linear infinite;
+}
+
+/* Animation */
+@keyframes scrollDisclaimer {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
