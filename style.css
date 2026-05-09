@@ -1046,11 +1046,8 @@ li {
     background: linear-gradient(135deg, #ee0979, #ff6a00); /* Reverse gradient */
     transform: translateY(-3px) scale(1.05); /* Lift + zoom */
     box-shadow: 0 6px 14px rgba(0,0,0,0.35);
-    #backToTop {
-    background: linear-gradient(135deg, #ff9933, #cc3300); /* Saffron to deep red */
 }
 
-}
 
 /* Optional: fade-in animation when appearing */
 #backToTop.show {
@@ -1600,9 +1597,10 @@ nav ul li a {
     width: 0.55rem;
     height: 0.55rem;
     border-radius: 50%;
-    background: #27ae60;
-    box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.18);
+    background: #ffd166;
+    box-shadow: 0 0 0 4px rgba(255, 209, 102, 0.25);
 }
+
 
 .ai-new-chat-button {
     min-height: 36px;
