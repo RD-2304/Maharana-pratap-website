@@ -1622,10 +1622,6 @@ nav ul li a {
     transform: translateY(-1px);
 }
 
-    background: #27ae60;
-    box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.18);
-}
-
 .ai-chat-window {
     display: flex;
     flex-direction: column;

@@ -296,7 +296,6 @@ document.addEventListener('DOMContentLoaded', function() {
             aiWindow.innerHTML = '';
             addAiMessage('Pratap AI', 'Ask me about Maharana Pratap\'s life, battles, timeline, Chetak, Mewar, or legacy.', 'bot');
             aiInput.value = '';
-            aiInput.focus();
         };
 
         const askAi = (question) => {
