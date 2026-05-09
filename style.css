@@ -1754,6 +1754,59 @@ nav ul li a {
     }
 }
 
+/* AI disclaimer ticker */
+.ai-disclaimer {
+    margin-bottom: 1rem;
+    width: 100%;
+    border-radius: 18px;
+    border: 2px solid rgba(139, 0, 0, 0.18);
+    background: rgba(255, 255, 255, 0.65);
+    padding: 0.65rem 0.9rem;
+}
+
+.ai-disclaimer-title {
+    color: #8b0000;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.ai-disclaimer-ticker {
+    overflow: hidden;
+    width: 100%;
+    background: rgba(139, 0, 0, 0.08);
+    border-radius: 14px;
+    padding: 0.35rem 0;
+}
+
+.ai-disclaimer-scroll {
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 100%;
+    animation: ai-disclaimer-scroll 14s linear infinite;
+    font-weight: 700;
+    color: #5a1515;
+    font-size: 0.95rem;
+}
+
+@keyframes ai-disclaimer-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ai-disclaimer-scroll {
+        animation: none;
+        padding-left: 0;
+    }
+}
+
 .site-audio-toggle {
     position: fixed;
     left: 1rem;
