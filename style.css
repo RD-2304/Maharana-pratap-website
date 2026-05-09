@@ -1791,10 +1791,12 @@ nav ul li a {
     font-size: 0.95rem;
 }
 
+
 @keyframes ai-disclaimer-scroll {
     0% {
         transform: translateX(0);
     }
+
     100% {
         transform: translateX(-100%);
     }
