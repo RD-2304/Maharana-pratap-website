@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maharana Pratap - The Brave Warrior</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="wiki-search-container">
+                <form id="wiki-search-form" class="wiki-search-form">
+                    <svg class="wiki-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input 
+                        type="text" 
+                        id="wiki-search-input" 
+                        class="wiki-search-input" 
+                        placeholder="Search on Wikipedia..."
+                        aria-label="Wikipedia search"
+                        autocomplete="off"
+                    >
+                    <button type="submit" class="wiki-search-btn" aria-label="Submit search">Search</button>
+                </form>
+                <div id="wiki-results-container" class="wiki-results-container hidden"></div>
+            </div>
+            <ul>
+                <li><a href="index.html" data-lang-en="Home" data-lang-hi="घर" data-lang-pa="ਘਰ">Home</a></li>
+                <li><a href="biography.html" data-lang-en="Biography" data-lang-hi="जीवनी" data-lang-pa="ਜੀਵਨੀ">Biography</a></li>
+                <li><a href="timeline.html" data-lang-en="Timeline" data-lang-hi="समयरेखा" data-lang-pa="ਸਮਾਂਰੇਖਾ">Timeline</a></li>
+                <li><a href="battles.html" data-lang-en="Battles" data-lang-hi="युद्ध" data-lang-pa="ਲੜਾਈਆਂ">Battles</a></li>
+                <li><a href="legacy.html" data-lang-en="Legacy" data-lang-hi="विरासत" data-lang-pa="ਵਿਰਾਸਤ">Legacy</a></li>
+                <li><a href="gallery.html" data-lang-en="Gallery" data-lang-hi="गैलरी" data-lang-pa="ਗੈਲਰੀ">Gallery</a></li>
+                <li><a href="contact.html" data-lang-en="Contact" data-lang-hi="संपर्क" data-lang-pa="ਸੰਪਰਕ">Contact</a></li>
+            </ul>
+            <div class="language-selector">
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="pa">ਪੰਜਾਬੀ</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <div class="hero-copy">
+                    <span class="eyebrow">Maharana Pratap</span>
+                    <h1 data-lang-en="India's Legendary Rajput Warrior" data-lang-hi="भारत के प्रसिद्ध राजपूत योद्धा" data-lang-pa="ਭਾਰਤ ਦੇ ਮਸ਼ਹੂਰ ਰਾਜਪੂਤ ਯੋਧੇ">India's Legendary Rajput Warrior</h1>
+                    <p data-lang-en="Discover the story of Maharana Pratap Singh I, the brave ruler of Mewar who stood firm against the Mughal empire and inspired generations of warriors and leaders." data-lang-hi="महाराणा प्रताप सिंह प्रथम की कहानी खोजें, जो मेवाड़ के वीर शासक थे जिन्होंने मुगल साम्राज्य के खिलाफ दृढ़ खड़े रहे और योद्धाओं और नेताओं की पीढ़ियों को प्रेरित किया।" data-lang-pa="ਮਹਾਰਾਣਾ ਪ੍ਰਤਾਪ ਸਿੰਘ ਪਹਿਲੇ ਦੀ ਕਹਾਣੀ ਲੱਭੋ, ਜੋ ਮੇਵਾੜ ਦੇ ਵੀਰ ਸ਼ਾਸਕ ਸਨ ਜਿਨ੍ਹਾਂ ਨੇ ਮੁਗਲ ਸਾਮਰਾਜ ਦੇ ਵਿਰੁੱਧ ਮਜ਼ਬੂਤ ਖੜ੍ਹੇ ਰਹੇ ਅਤੇ ਯੋਧਿਆਂ ਅਤੇ ਨੇਤਾਵਾਂ ਦੀਆਂ ਪੀੜ੍ਹੀਆਂ ਨੂੰ ਪ੍ਰੇਰਿਤ ਕੀਤਾ।">Discover the story of Maharana Pratap Singh I, the brave ruler of Mewar who stood firm against the Mughal empire and inspired generations of warriors and leaders.</p>
+                    <a class="btn" href="biography.html">Explore the Biography</a>
+                </div>
+                <div class="hero-image">
+                    <img src="maharana-images.jpg" alt="Maharana Pratap portrait">
+                </div>
+            </div>
+        </section>
+        <section id="home-gallery" class="home-scroll-gallery">
+            <div class="home-scroll-track">
+                <article class="home-scroll-item">
+                    <img src="maharana-images.jpg" alt="Maharana Pratap portrait">
+                    <p>Maharana Pratap portrait</p>
+                </article>
+                <article class="home-scroll-item">
+                    <img src="maharana-3038293.jpg" alt="Maharana Pratap artwork">
+                    <p>Maharana Pratap artwork</p>
+                </article>
+                <article class="home-scroll-item">
+                    <img src="copy statue.jpg" alt="Udaipur statue of Maharana Pratap" class="statue-img">
+                    <p>Udaipur statue of Maharana Pratap</p>
+                </article>
+                <article class="home-scroll-item">
+                    <img src="haldighati-yuddh.jpg" alt="Battle of Haldighati painting">
+                    <p>Battle of Haldighati painting</p>
+                </article>
+                <article class="home-scroll-item">
+                    <img src="maharana-images.jpg" alt="Maharana Pratap portrait">
+                    <p>Maharana Pratap portrait</p>
+                </article>
+                <article class="home-scroll-item">
+                    <img src="maharana-3038293.jpg" alt="Maharana Pratap artwork">
+                    <p>Maharana Pratap artwork</p>
+                </article>
+                <article class="home-scroll-item">
+                    <img src="copy statue.jpg" alt="statue of Maharana Pratap in Udaipur" class="statue-img">
+                    <p>Udaipur statue of Maharana Pratap</p>
+                </article>
+                <article class="home-scroll-item">
+                    <img src="haldighati-yuddh.jpg" alt="Battle of Haldighati painting">
+                    <p>Battle of Haldighati painting</p>
+                </article>
+            </div>
+        </section>
+        <section id="highlights" class="card-grid">
+            <article class="card">
+                <h3>Legendary Courage</h3>
+                <p>Maharana Pratap refused to surrender and led his army from the front during the Battle of Haldighati.</p>
+            </article>
+            <article class="card">
+                <h3>Historical Leader</h3>
+                <p>He was the 13th Rana of Mewar and ruled from 1572 to 1597, defending his kingdom's independence.</p>
+            </article>
+            <article class="card">
+                <h3>Lasting Legacy</h3>
+                <p>Pratap is celebrated as a national hero, with statues, films, and stories honoring his valor.</p>
+            </article>
+        </section>
+        <section id="introduction" class="intro-grid">
+            <div>
+                <h2>Who was Maharana Pratap?</h2>
+                <p>Maharana Pratap was a Rajput king of Mewar, known for his valiant resistance against the Mughal Empire under Emperor Akbar. He is celebrated for his courage, leadership, and unwavering commitment to his kingdom's independence.</p>
+                <p>Born in 1540 at Kumbhalgarh Fort, he was the eldest son of Maharana Udai Singh II and Rani Jaiwanta Bai. He became ruler of Mewar in 1572, refusing Akbar's offer of submission and choosing a life of resistance instead.</p>
+                <p>Pratap used mountain warfare, skilled archers, and loyal Bhil allies to keep his kingdom alive despite repeated Mughal invasions. He established the hill fortress capital at Chavand and became a lasting symbol of Rajput pride.</p>
+            </div>
+            <div class="intro-image">
+                <img src="maharana-3038293.jpg" alt="Maharana Pratap image">
+            </div>
+        </section>
+        <section id="events" class="card-grid">
+            <article class="card">
+                <h3>Birth and Early Life</h3>
+                <p>Born on May 9, 1540, at Kumbhalgarh Fort, Maharana Pratap was the eldest son of Udai Singh II. He was trained in warfare and leadership from a young age.</p>
+            </article>
+            <article class="card">
+                <h3>Accession to Throne</h3>
+                <p>In 1572, at the age of 32, Pratap ascended the throne of Mewar after his father's death, vowing to defend his kingdom against Mughal invasion.</p>
+            </article>
+            <article class="card">
+                <h3>Battle of Haldighati</h3>
+                <p>In 1576, Pratap led his forces against Akbar's army in the famous Battle of Haldighati, showcasing his bravery and strategic prowess.</p>
+            </article>
+            <article class="card">
+                <h3>Guerrilla Warfare</h3>
+                <p>After the battle, Pratap adopted guerrilla tactics, using the Aravalli hills to launch surprise attacks and maintain resistance against the Mughals.</p>
+            </article>
+            <article class="card">
+                <h3>Alliance with Bhils</h3>
+                <p>Pratap formed alliances with the Bhil tribes, gaining their support and using their knowledge of the terrain to his advantage in the ongoing conflict.</p>
+            </article>
+            <article class="card">
+                <h3>Death and Legacy</h3>
+                <p>Maharana Pratap passed away on January 19, 1597, in Chavand. His legacy as a symbol of Rajput valor and resistance continues to inspire.</p>
+            </article>
+        </section>
+        <section id="present-events" class="card-grid">
+            <article class="card">
+                <h3>Maharana Pratap Jayanti</h3>
+                <p>Celebrated annually on May 9th, this festival honors Pratap's birth with parades, cultural programs, and speeches in Rajasthan.</p>
+            </article>
+            <article class="card">
+                <h3>Udaipur Cultural Festival</h3>
+                <p>The City Palace hosts events showcasing Rajput heritage, including dance, music, and exhibitions related to Pratap's legacy.</p>
+            </article>
+            <article class="card">
+                <h3>Battle of Haldighati Reenactment</h3>
+                <p>Annual reenactments at Haldighati Fort bring history to life, attracting tourists and educating visitors about the battle.</p>
+            </article>
+            <article class="card">
+                <h3>Documentary Releases</h3>
+                <p>New films and documentaries about Maharana Pratap are released regularly, highlighting his story for modern audiences.</p>
+            </article>
+            <article class="card">
+                <h3>Educational Workshops</h3>
+                <p>Schools and universities conduct workshops on Rajput history, inspiring students with tales of courage and resistance.</p>
+            </article>
+            <article class="card">
+                <h3>Statue Maintenance Events</h3>
+                <p>Community events for cleaning and maintaining Pratap's statues in Udaipur, fostering local pride and heritage preservation.</p>
+            </article>
+
+            
+            <!-- Important Announcement Section -->
+<section class="info-highlight">
+  <!-- Scrolling ticker line ABOVE the container -->
+  <div class="scroll-wrapper"> 
+    <div class="upcoming-grid">
+    <div class="scroll-text">🔥 IMPORTANT ANNOUNCEMENT 🔥</div>
+  </div>
+  </div>
+
+  <div class="info-container">
+     <h2>Maharana Pratap Jayanti Celebration Details</h2>
+     <button id="learnmore" onclick="toggleContent()">learn more</button>
+
+     <div id="extraContent" style="display: none;">
+        <div class="announcement-actions">
+            <div class="state-tabs" role="tablist" aria-label="State announcement selection">
+                <button type="button" class="state-tab active" data-state="haryana" aria-selected="true" onclick="showStateInfo('haryana')">Haryana</button>
+                <button type="button" class="state-tab" data-state="punjab" aria-selected="false" onclick="showStateInfo('punjab')">Punjab</button>
+            </div>
+            <!--<a class="youtube-button" href="https://youtu.be/qeVUGnke9ko?si=2VzZxk0Oi6CdFRXw" target="_blank" rel="noopener" role="button" aria-label="Open Maharana Pratap Jayanti YouTube videos">YouTube </a> -->
+        </div>
+
+        <div id="haryana-info" class="state-info active">
+            <h3>🚩 HARYANA 🚩</h3>
+            <p>🚩 3 मई – चलो साहा! 🚩</p>
+            <p>🚩 निमंत्रण कार्यक्रम – 24 अप्रैल 2026 🚩</p>
+            <p>⚔️ महाराणा प्रताप जयंती महोत्सव 2026 ⚔️</p>
+            <p>मुख्य आयोजन – 3 मई 2026</p>
+            <p>📍 स्थान – साहा, अंबाला</p>
+
+            <h4>सुबह / दोपहर का कार्यक्रम</h4>
+            <p>
+                📍 सीवन — 10:00 बजे <br>
+                📍 सोथा — 10:30 बजे <br>
+                📍 गोरों खेड़ी — 11:00 बजे <br>
+                📍 कसोर — 11:30 बजे <br>
+                📍 रसौली — 12:00 बजे <br>
+                📍 अगोंद — 12:30 बजे <br>
+                📍 पीडल — 1:00 बजे <br>
+                📍 भुना — 1:30 बजे
+            </p>
+
+            <h4>शाम का कार्यक्रम</h4>
+            <p>
+                📍 कलायत — 3:00 बजे <br>
+                📍 बाता — 3:30 बजे <br>
+                📍 राजौंद — 4:00 बजे <br>
+                📍 विर बांगड — 5:00 बजे <br>
+                📍 भारी — 5:30 बजे <br>
+                📍 बिगाना — 6:00 बजे
+            </p>
+
+            <p>🔥 हर गांव, हर घर से एक ही पुकार — 3 मई को चलो साहा! 🔥</p>
+            <p>🙏 आप सभी से विनम्र निवेदन है कि समय पर पहुंचकर कार्यक्रम को सफल बनाएं</p>
+            <p>🚩 जय महाराणा प्रताप | जय मेवाड़ | जय राजपूताना 🚩</p>
+        </div>
+
+        <div id="punjab-info" class="state-info">
+            <h3>🚩 PUNJAB 🚩</h3>
+            <p>⚔️ महाराणा प्रताप जयंती महोत्सव 2026 ⚔️</p>
+            <p>Punjab program details will be updated here.</p>
+            <p>
+                📍 स्थान – पंजाब <br>
+                🗓️ तारीख – जल्द अपडेट होगी <br>
+                ⏰ समय – जल्द अपडेट होगा
+            </p>
+            <p>🙏 पंजाब कार्यक्रम की पूरी जानकारी मिलने के बाद यहां दिखाई जाएगी।</p>
+            <p>🚩 जय महाराणा प्रताप | जय मेवाड़ | जय राजपूताना 🚩</p>
+        </div>
+     </div>
+  </div>
+</section>
+
+
+  <!--<div class="announcement-bar">
+  <div class="scroll-text">
+    <span>🔥 <b>Important:</b> Maharana Pratap Jayanti Celebration at Main Heritage Plaza on May 9, 2026. Join us for a grand procession! 🚩</span>
+     Repeat the same text to create a seamless loop -
+    <span>🔥 <b>Important:</b> Maharana Pratap Jayanti Celebration at Main Heritage Plaza on May 9, 2026. Join us for a grand procession! 🚩</span> 
+  </div>
+</div> -->
+
+
+<!-- Your existing Upcoming Events container follows below -->
+
+        </section>
+        <section id="upcoming-events">
+            <h2>Upcoming Events</h2>
+          <!-- <button id="show-other-events" class="show-events-btn">Show Upcoming Events</button> -->
+            <div class="upcoming-grid">
+                <article class="upcoming-card highlighted">
+                    <div class="event-date">May 9, 2026</div>
+                    <h3>Maharana Pratap Jayanti</h3>
+                    <p>Join us for a grand celebration at Kumbhalgarh Fort with cultural performances, speeches, and traditional Rajasthani cuisine.</p>
+                    <a href="#" class="event-link">Learn More</a>
+                    <div class="event-details" style="display: none;">
+                        <p>Additional details: The event includes traditional Rajasthani folk dances, historical reenactments, and a special tribute to Maharana Pratap. Location: Kumbhalgarh Fort, Rajasthan. Time: 10 AM - 6 PM. Entry is free. For more info, contact us at info@maharanapratap.com.</p>
+                    </div>
+                </article>
+                <article class="upcoming-card">
+                    <div class="event-date">June 15, 2026</div>
+                    <h3>Battle of Haldighati Memorial</h3>
+                    <p>A commemorative event with reenactments, historical talks, and a special exhibition of artifacts from the battle.</p>
+                    <a href="#" class="event-link">Learn More</a>
+                    <div class="event-details" style="display: none;">
+                        <p>More information: Experience live reenactments of the Battle of Haldighati, expert talks by historians, and view rare artifacts. Venue: Haldighati Fort. Schedule: 9 AM - 5 PM. Tickets available online.</p>
+                    </div>
+                </article>
+                <article class="upcoming-card">
+                    <div class="event-date">July 22, 2026</div>
+                    <h3>Rajput Heritage Festival</h3>
+                    <p>Experience Rajput culture through dance, music, and crafts at the City Palace, Udaipur.</p>
+                    <a href="#" class="event-link">Learn More</a>
+                    <div class="event-details" style="display: none;">
+                        <p>Details: Featuring traditional Rajasthani music, dance performances, handicraft exhibitions, and cultural workshops. Location: City Palace, Udaipur. Duration: All day event. Free admission.</p>
+                    </div>
+                </article>
+                <article class="upcoming-card">
+                    <div class="event-date">August 10, 2026</div>
+                    <h3>Educational Webinar</h3>
+                    <p>Online session on Maharana Pratap's leadership lessons, featuring historians and educators.</p>
+                    <a href="#" class="event-link">Learn More</a>
+                    <div class="event-details" style="display: none;">
+                        <p>Webinar info: Join online to learn about Maharana Pratap's strategies and legacy. Speakers include renowned historians. Platform: Zoom. Registration required at events@maharanapratap.com.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+        <section id="ai-assistant" class="ai-assistant">
+            <div class="ai-assistant-header">
+                <div>
+                    <span class="section-kicker">AI Tool</span>
+                    <h2>AI History Assistant</h2>
+                </div>
+               
+                <button type="button" id="ai-new-chat-button" class="ai-new-chat-button">New Chat</button>
+            </div>
+             <div class="ai-status" aria-label="Assistant status">
+                    <span></span>
+                    Beta version
+                </div>
+                 <div class="ai-chat-window" id="ai-chat-window" aria-live="polite">
+                <div class="ai-message ai-message-bot">
+            
+                </div>
+            </div>
+
+            <div class="ai-prompts" aria-label="Suggested questions">
+                <button type="button" class="ai-prompt" data-question="Who was Maharana Pratap?">Who was Maharana Pratap?</button>
+                <button type="button" class="ai-prompt" data-question="What happened in the Battle of Haldighati?">Battle of Haldighati</button>
+                <button type="button" class="ai-prompt" data-question="Tell me about Chetak and the escape after Haldighati.">Chetak & Escape</button>
+                <button type="button" class="ai-prompt" data-question="What was Maharana Pratap's strategy after Haldighati?">Guerrilla Strategy</button>
+                <button type="button" class="ai-prompt" data-question="Explain Maharana Pratap's hill fortress at Chavand / Aravalli base.">Chavand & Aravalli</button>
+                <button type="button" class="ai-prompt" data-question="Who was Rawat Jhala in the Haldighati tradition?">Rawat Jhala</button>
+                <button type="button" class="ai-prompt" data-question="Tell me about Ajabde Bai Punwar and Maharana Pratap's family.">Family</button>
+                <button type="button" class="ai-prompt" data-question="Why did Maharana Pratap refuse to submit to Akbar?">Refusal to Akbar</button>
+                <button type="button" class="ai-prompt" data-question="How did Bhamashah and the Bhil allies help Maharana Pratap?">Bhamashah & Allies</button>
+                <button type="button" class="ai-prompt" data-question="How did Maharana Pratap die and what happened after?">Death & Aftermath</button>
+                <button type="button" class="ai-prompt" data-question="What is Maharana Pratap's legacy and why is Maharana Pratap Jayanti celebrated?">Legacy & Jayanti</button>
+                <button type="button" class="ai-prompt" data-question="Give me a timeline of Maharana Pratap's key life events and dates.">Timeline</button>
+            </div>
+
+
+            <form id="ai-question-form" class="ai-question-form">
+                <label class="sr-only" for="ai-question-input">Ask Pratap AI</label>
+                <input
+                    type="text"
+                    id="ai-question-input"
+                    placeholder="Ask about Maharana Pratap..."
+                    autocomplete="off"
+                >
+                <button type="submit">Ask AI</button>
+            </form>
+        </section>
+
+        <section id="key-facts">
+            <h2>Key Facts</h2>
+            <ul>
+                <li><strong>Birth:</strong> May 9, 1540, Kumbhalgarh Fort</li>
+                <li><strong>Death:</strong> January 19, 1597, Chavand</li>
+                <li><strong>Reign:</strong> 1572–1597</li>
+                <li><strong>Consort:</strong> Ajabde Bai Punwar</li>
+                <li><strong>Successor:</strong> Amar Singh I</li>
+                <li><strong>Famous For:</strong> Resistance against Mughals, Battle of Haldighati</li>
+            </ul>
+            <h3>Family</h3>
+            <ul>
+                <li>Part of the Sisodia Rajput dynasty of Mewar</li>
+                <li>Chief consort: Ajabde Bai Punwar</li>
+                <li>Son and successor: Amar Singh I</li>
+                <li>Supported by Bhil allies and his loyal general Bhamashah</li>
+            </ul>
+        </section>
+
+        
+    </main>
+    <footer>
+        <p>&copy; 2026 Maharana Pratap Website</p>
+        <button id="backToTop">Back to Top</button>
+    </footer>
+    <script src="jscript.js"></script>
+
+<!-- Developer Information Section 
+  
+  <div class="developer-section">
+    <hr class="footer-divider">
+    <img src="1776503652495.jpg" alt="Developer Image" class="dev-image" height="200px" width="200px">
+    <h3 class="dev-name">Rana Developer</h3>
+    <p class="dev-bio">Full Stack Developer specializing in clean, functional web experiences and modern digital solutions.</p>
+</div>
+ Back to Top Button Script -->  
+
+
+ <div class="developer-section">
+  <hr class="footer-divider">
+  <h3 class="dev-name" onclick="showImage()">Rana Developer</h3> 
+  
+  <!--Developer Image (initially hidden) 
+  <img id="devImage" src="1776503652495.jpg" alt="Developer Image" class="dev-image" height="200px" width="200px" style="display:none;"> 
+  
+  <p class="dev-bio">Full Stack Developer specializing in clean, functional web experiences and modern digital solutions.</p> -->
+</div>
+
+<script>
+  function showImage() {
+    document.getElementById("devImage").style.display = "block";
+  }
+</script>
+
+
+<script>
+  const backToTopBtn = document.getElementById("backToTop");
+
+  window.onscroll = function() {
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      backToTopBtn.style.display = "block";
+    } else {
+      backToTopBtn.style.display = "none";
+    }
+  };
+
+  backToTopBtn.addEventListener("click", function() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+</script>
+</body>
+</html>

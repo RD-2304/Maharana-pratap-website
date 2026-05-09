@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact the Maharana Pratap Website team with questions, feedback, or event information.">
+    <title>Contact - Maharana Pratap</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="biography.html">Biography</a></li>
+                <li><a href="timeline.html">Timeline</a></li>
+                <li><a href="battles.html">Battles</a></li>
+                <li><a href="legacy.html">Legacy</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="contact.html" aria-current="page">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="contact-panel">
+            <h1>Contact Us</h1>
+            <p>Send feedback, corrections, or event updates for the Maharana Pratap website.</p>
+            <form class="contact-form" action="mailto:info@maharanapratap.com" method="post" enctype="text/plain">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" autocomplete="name" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" required>
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 Maharana Pratap Website</p>
+        <button id="backToTop" type="button" aria-label="Back to top">Top</button>
+    </footer>
+    <script src="jscript.js"></script>
+</body>
+</html>
