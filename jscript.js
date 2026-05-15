@@ -1,41 +1,33 @@
-function showEntrySplash() {
-    if (!document.body) return;
-
-    const splash = document.createElement('div');
-    splash.className = 'entry-splash';
-    splash.setAttribute('aria-label', 'Welcome to the Maharana Pratap website');
-    splash.innerHTML = `
-        <div class="entry-splash-card">
-            <img class="entry-splash-image" src="hero-front-image.webp" alt=" The Warrior Maharana Pratap">
-            <p class="entry-splash-title"> The Warrior Maharana Pratap</p>
-        </div>
-    `;
-
-    let splashClosed = false;
-    const closeSplash = () => {
-        if (splashClosed) return;
-        splashClosed = true;
-        splash.classList.add('is-hiding');
-
-        window.setTimeout(() => {
-            document.body.classList.remove('entry-splash-active');
-            splash.remove();
-        }, 520);
-    };
-
-    document.body.classList.add('entry-splash-active');
-    document.body.prepend(splash);
-    splash.addEventListener('click', closeSplash, { once: true });
-    window.setTimeout(closeSplash, 1800);
+function safeStorageGet(key, storageName = 'localStorage') {
+    try {
+        return window[storageName].getItem(key);
+    } catch (error) {
+        return null;
+    }
 }
 
-showEntrySplash();
+function safeStorageSet(key, value, storageName = 'localStorage') {
+    try {
+        window[storageName].setItem(key, value);
+    } catch (error) {
+        // Storage can be unavailable on some mobile/private browsers.
+    }
+}
+
+function windowNameHasFlag(flag) {
+    return typeof window.name === 'string' && window.name.split('|').includes(flag);
+}
+
+function windowNameSetFlag(flag) {
+    if (windowNameHasFlag(flag)) return;
+    window.name = window.name ? `${window.name}|${flag}` : flag;
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     // Background music
     const audio = document.createElement('audio');
     const audioButton = document.createElement('button');
-    const savedMuted = localStorage.getItem('backgroundMusicMuted') === 'true';
+    const savedMuted = safeStorageGet('backgroundMusicMuted') === 'true';
     let unlockHandlersAdded = false;
 
     audio.src = 'rajput%20clan.mp3';
@@ -100,13 +92,13 @@ document.addEventListener('DOMContentLoaded', function() {
     audioButton.addEventListener('click', () => {
         if (audio.paused) {
             audio.muted = false;
-            localStorage.setItem('backgroundMusicMuted', 'false');
+            safeStorageSet('backgroundMusicMuted', 'false');
             startMusic();
             return;
         }
 
         audio.muted = !audio.muted;
-        localStorage.setItem('backgroundMusicMuted', audio.muted ? 'true' : 'false');
+        safeStorageSet('backgroundMusicMuted', audio.muted ? 'true' : 'false');
         updateAudioButton();
     });
 
@@ -366,7 +358,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (contactForm && contactTribute) {
         const contactSubmitButton = contactForm.querySelector('button[type="submit"]');
         const originalSubmitText = contactSubmitButton ? contactSubmitButton.textContent : '';
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const prefersReducedMotion = mediaMatches('(prefers-reduced-motion: reduce)');
+        const isSmallScreen = mediaMatches('(max-width: 760px)');
+        const tributeImage = contactTribute.querySelector('.tribute-image');
+
+        if (tributeImage && typeof tributeImage.decode === 'function') {
+            tributeImage.decode().catch(() => {});
+        }
 
         contactForm.addEventListener('submit', event => {
             if (contactForm.dataset.tributeReady === 'true') {
@@ -388,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 contactTribute.scrollIntoView({
                     behavior: prefersReducedMotion ? 'auto' : 'smooth',
-                    block: 'nearest'
+                    block: isSmallScreen ? 'center' : 'nearest'
                 });
             });
 
@@ -408,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         contactSubmitButton.textContent = originalSubmitText;
                     }
                 }, 1200);
-            }, prefersReducedMotion ? 350 : 1300);
+            }, prefersReducedMotion ? 650 : (isSmallScreen ? 2100 : 1300));
         });
     }
 
@@ -418,7 +416,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (galleryWindow && prevGallery && nextGallery) {
         const scrollStep = Math.max(320, galleryWindow.offsetWidth * 0.8);
-        const shouldAutoScroll = !window.matchMedia('(hover: none), (pointer: coarse)').matches;
+        const shouldAutoScroll = !mediaMatches('(hover: none), (pointer: coarse)');
 
         const scrollByAmount = (amount) => {
             galleryWindow.scrollBy({ left: amount, behavior: 'smooth' });

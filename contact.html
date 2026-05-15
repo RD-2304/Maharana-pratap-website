@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Contact the Maharana Pratap Website team with questions, feedback, or event information.">
     <title>Contact - Maharana Pratap</title>
+    <link rel="preload" as="image" href="hero-front-image.webp">
+    <link rel="preload" as="image" href="contact-pratap-sketch.jpg">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -40,7 +42,7 @@
 
             <div id="contact-tribute" class="contact-tribute" role="status" aria-live="polite" tabindex="-1" hidden>
                 <div class="tribute-art">
-                    <img class="tribute-image" src="contact-pratap-sketch.jpg" alt="Sketched portrait of Maharana Pratap">
+                    <img class="tribute-image" src="contact-pratap-sketch.jpg" alt="Sketched portrait of Maharana Pratap" loading="eager" decoding="async" fetchpriority="high">
                 </div>
                 <div class="tribute-copy">
                     <span class="section-kicker">Message Sent</span>
@@ -51,8 +53,8 @@
         </section>
     </main>
     <footer>
-        <p>2026 Maharana Pratap Website. All rights reserved.</p>
-        <button id="backToTop" type="button" aria-label="Back to top">Top</button>
+        <p>&copy;2026 Maharana Pratap Website. All rights reserved.</p>
+        <button id="backToTop" type="button" aria-label="Back to top">Back to Top</button>
     </footer>
     <script src="jscript.js"></script>
 </body>
