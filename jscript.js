@@ -23,6 +23,10 @@ function windowNameSetFlag(flag) {
     window.name = window.name ? `${window.name}|${flag}` : flag;
 }
 
+function mediaMatches(query) {
+    return typeof window.matchMedia === 'function' && window.matchMedia(query).matches;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Background music
     const audio = document.createElement('audio');
