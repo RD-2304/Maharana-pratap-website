@@ -10,6 +10,24 @@
 <body>
     <header>
         <nav>
+            <div class="wiki-search-container">
+                <form id="wiki-search-form" class="wiki-search-form">
+                    <svg class="wiki-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input
+                        type="text"
+                        id="wiki-search-input"
+                        class="wiki-search-input"
+                        placeholder="Search on Wikipedia..."
+                        aria-label="Wikipedia search"
+                        autocomplete="off"
+                    >
+                    <button type="submit" class="wiki-search-btn" aria-label="Submit search">Search</button>
+                </form>
+                <div id="wiki-results-container" class="wiki-results-container hidden"></div>
+            </div>
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="biography.html">Biography</a></li>
@@ -49,7 +67,8 @@
         </section>
     </main>
     <footer>
-        <p>&copy; 2026 Maharana Pratap Website</p>
+        <p>2026 Maharana Pratap Website. All rights reserved.</p>
+        <button id="backToTop" type="button" aria-label="Back to top">Back to Top</button>
     </footer>
     <script src="jscript.js"></script>
 </body>

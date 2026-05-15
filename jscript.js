@@ -1,3 +1,36 @@
+function showEntrySplash() {
+    if (!document.body) return;
+
+    const splash = document.createElement('div');
+    splash.className = 'entry-splash';
+    splash.setAttribute('aria-label', 'Welcome to the Maharana Pratap website');
+    splash.innerHTML = `
+        <div class="entry-splash-card">
+            <img class="entry-splash-image" src="hero-front-image.webp" alt=" The Warrior Maharana Pratap">
+            <p class="entry-splash-title"> The Warrior Maharana Pratap</p>
+        </div>
+    `;
+
+    let splashClosed = false;
+    const closeSplash = () => {
+        if (splashClosed) return;
+        splashClosed = true;
+        splash.classList.add('is-hiding');
+
+        window.setTimeout(() => {
+            document.body.classList.remove('entry-splash-active');
+            splash.remove();
+        }, 520);
+    };
+
+    document.body.classList.add('entry-splash-active');
+    document.body.prepend(splash);
+    splash.addEventListener('click', closeSplash, { once: true });
+    window.setTimeout(closeSplash, 1800);
+}
+
+showEntrySplash();
+
 document.addEventListener('DOMContentLoaded', function() {
     // Background music
     const audio = document.createElement('audio');
@@ -200,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 answer: 'The Battle of Haldighati was fought in 1576 between Maharana Pratap and Mughal forces led by Man Singh I. The Mughals held the battlefield, but Pratap survived by retreating to the hills, regrouped, and continued resisting Mughal control.'
             },
             {
-                keywords: ['chetak', 'horse', 'wounded', 'rawat jhala'],
+                keywords: ['chetak', 'horse', 'wounded', 'rawat jhala','escape', 'loyalty', 'courage'],
                 answer: 'Chetak is remembered as Maharana Pratap\'s loyal horse. In popular tradition, Chetak carried the wounded Pratap away from Haldighati, becoming a symbol of loyalty and courage. (Some retellings also highlight the sacrifice of Rawat Jhala during the escape.)'
             },
             {
@@ -327,6 +360,58 @@ document.addEventListener('DOMContentLoaded', function() {
         resetAiChat();
     }
 
+    const contactForm = document.querySelector('.contact-form');
+    const contactTribute = document.getElementById('contact-tribute');
+
+    if (contactForm && contactTribute) {
+        const contactSubmitButton = contactForm.querySelector('button[type="submit"]');
+        const originalSubmitText = contactSubmitButton ? contactSubmitButton.textContent : '';
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        contactForm.addEventListener('submit', event => {
+            if (contactForm.dataset.tributeReady === 'true') {
+                return;
+            }
+
+            event.preventDefault();
+            contactForm.dataset.tributeReady = 'true';
+            contactTribute.hidden = false;
+
+            window.requestAnimationFrame(() => {
+                contactTribute.classList.add('is-visible');
+
+                try {
+                    contactTribute.focus({ preventScroll: true });
+                } catch (error) {
+                    contactTribute.focus();
+                }
+
+                contactTribute.scrollIntoView({
+                    behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                    block: 'nearest'
+                });
+            });
+
+            if (contactSubmitButton) {
+                contactSubmitButton.disabled = true;
+                contactSubmitButton.textContent = 'Opening Email...';
+            }
+
+            window.setTimeout(() => {
+                HTMLFormElement.prototype.submit.call(contactForm);
+
+                window.setTimeout(() => {
+                    contactForm.dataset.tributeReady = 'false';
+
+                    if (contactSubmitButton) {
+                        contactSubmitButton.disabled = false;
+                        contactSubmitButton.textContent = originalSubmitText;
+                    }
+                }, 1200);
+            }, prefersReducedMotion ? 350 : 1300);
+        });
+    }
+
     const galleryWindow = document.querySelector('.gallery-window');
     const prevGallery = document.querySelector('.gallery-prev');
     const nextGallery = document.querySelector('.gallery-next');
@@ -374,6 +459,83 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    const galleryImages = document.querySelectorAll('.scroll-gallery .scroll-item img, .home-scroll-gallery .home-scroll-item img');
+
+    if (galleryImages.length) {
+        const lightbox = document.createElement('div');
+        lightbox.className = 'gallery-lightbox';
+        lightbox.setAttribute('role', 'dialog');
+        lightbox.setAttribute('aria-modal', 'true');
+        lightbox.setAttribute('aria-label', 'Full size gallery image');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightbox.innerHTML = `
+            <button type="button" class="gallery-lightbox-close" aria-label="Close image preview">&times;</button>
+            <figure class="gallery-lightbox-figure">
+                <img class="gallery-lightbox-image" src="" alt="">
+                <figcaption class="gallery-lightbox-caption"></figcaption>
+            </figure>
+        `;
+        document.body.appendChild(lightbox);
+
+        const lightboxImage = lightbox.querySelector('.gallery-lightbox-image');
+        const lightboxCaption = lightbox.querySelector('.gallery-lightbox-caption');
+        const lightboxClose = lightbox.querySelector('.gallery-lightbox-close');
+        let focusedBeforeLightbox = null;
+
+        const closeLightbox = () => {
+            lightbox.classList.remove('is-open');
+            lightbox.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('lightbox-open');
+            lightboxImage.removeAttribute('src');
+
+            if (focusedBeforeLightbox) {
+                focusedBeforeLightbox.focus();
+                focusedBeforeLightbox = null;
+            }
+        };
+
+        const openLightbox = (image) => {
+            focusedBeforeLightbox = document.activeElement;
+            const caption = image.closest('.scroll-item, .home-scroll-item')?.querySelector('p')?.textContent.trim() || image.alt || 'Gallery image';
+
+            lightboxImage.src = image.currentSrc || image.src;
+            lightboxImage.alt = image.alt || caption;
+            lightboxCaption.textContent = caption;
+            lightbox.classList.add('is-open');
+            lightbox.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('lightbox-open');
+            lightboxClose.focus();
+        };
+
+        galleryImages.forEach(image => {
+            image.classList.add('gallery-open-image');
+            image.setAttribute('tabindex', '0');
+            image.setAttribute('role', 'button');
+            image.setAttribute('aria-label', `Open ${image.alt || 'gallery image'} in full view`);
+
+            image.addEventListener('click', () => openLightbox(image));
+            image.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openLightbox(image);
+                }
+            });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', event => {
+            if (event.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && lightbox.classList.contains('is-open')) {
+                closeLightbox();
+            }
+        });
+    }
+
     // Show upcoming events on button click
     const showOtherBtn = document.getElementById('show-other-events');
     if (showOtherBtn) {
@@ -383,17 +545,6 @@ document.addEventListener('DOMContentLoaded', function() {
             showOtherBtn.style.display = 'none'; // Hide button after click
         });
     }
-
-    // Highlight specific upcoming event on click
-    const upcomingCards = document.querySelectorAll('.upcoming-card');
-    upcomingCards.forEach(card => {
-        card.addEventListener('click', () => {
-            // Remove highlighted from all
-            upcomingCards.forEach(c => c.classList.remove('highlighted'));
-            // Add to clicked
-            card.classList.add('highlighted');
-        });
-    });
 
     // Toggle event details on Learn More click
     const eventLinks = document.querySelectorAll('.event-link');

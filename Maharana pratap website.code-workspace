@@ -4,5 +4,8 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.encoding": "utf8",
+		"files.autoGuessEncoding": true
+	}
 }
