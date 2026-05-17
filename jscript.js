@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (aiForm && aiInput && aiWindow) {
         const aiAnswers = [
             {
-                keywords: ['who', 'about', 'biography', 'maharana', 'pratap', 'introduction'],
+                keywords: ['who', 'about', 'biography', 'maharanapratap', 'pratap', 'introduction'],
                 answer: 'Maharana Pratap Singh I was the 13th Rana of Mewar. He is remembered for defending Mewar independence, refusing Mughal submission, and leading a long resistance from the Aravalli hills.'
             },
             {
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 answer: 'After setbacks, Pratap established a hill-fortress style base in the Aravalli region—often associated with Chavand. This helped Mewar sustain resistance using difficult terrain, local knowledge, and fast-moving raids.'
             },
             {
-                keywords: ['guerrilla', 'guerrilla warfare', 'tactics', 'hit and run', 'hill warfare', 'raids'],
+                keywords: ['guerrilla', 'guerrilla warfare', 'tactics', 'hit and run', 'hill warfare', 'raids', 'strategy', 'after'],
                 answer: 'After Haldighati, Pratap adopted guerrilla tactics: quick raids, surprise attacks, and then withdrawing to safe terrain. This helped keep Mughal control incomplete while preserving Mewar\'s fighting strength.'
             },
             {
