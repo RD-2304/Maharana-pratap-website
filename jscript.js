@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const resetAiChat = () => {
             aiWindow.innerHTML = '';
-            addAiMessage('Pratap AI', 'Ask me about Maharana Pratap\'s life, battles, timeline, Chetak, Mewar, or legacy.', 'bot');
+            addAiMessage('Pratap AI', 'Ask me about Maharana Pratap', 'bot');
             aiInput.value = '';
         };
 
@@ -352,6 +352,73 @@ document.addEventListener('DOMContentLoaded', function() {
         if (aiNewChatButton) {
             aiNewChatButton.addEventListener('click', resetAiChat);
         }
+
+        // Voice search functionality
+        const voiceSearchBtn = document.getElementById('voice-search-btn');
+        const cameraBtn = document.getElementById('camera-btn');
+
+        if (voiceSearchBtn) {
+            voiceSearchBtn.addEventListener('click', event => {
+                event.preventDefault();
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                
+                if (!SpeechRecognition) {
+                    alert('Voice search is not supported in your browser. Please use Chrome, Edge, or Safari.');
+                    return;
+                }
+
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'en-US';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                voiceSearchBtn.style.color = '#8b0000';
+                voiceSearchBtn.style.backgroundColor = 'rgba(139, 0, 0, 0.2)';
+                voiceSearchBtn.disabled = true;
+
+                recognition.onstart = () => {
+                    voiceSearchBtn.style.backgroundColor = 'rgba(255, 0, 0, 0.2)';
+                };
+
+                recognition.onresult = event => {
+                    let transcript = '';
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        transcript += event.results[i][0].transcript;
+                    }
+                    
+                    if (transcript.trim()) {
+                        aiInput.value = transcript.trim();
+                        aiInput.focus();
+                    }
+                    
+                    voiceSearchBtn.style.backgroundColor = '';
+                    voiceSearchBtn.disabled = false;
+                };
+
+                recognition.onerror = event => {
+                    console.error('Speech recognition error', event.error);
+                    voiceSearchBtn.style.backgroundColor = '';
+                    voiceSearchBtn.disabled = false;
+                };
+
+                recognition.onend = () => {
+                    voiceSearchBtn.style.backgroundColor = '';
+                    voiceSearchBtn.disabled = false;
+                };
+
+                recognition.start();
+            });
+        }
+
+      if (cameraBtn) {
+    cameraBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        alert(
+            "Camera search feature coming soon! You will be able to search using images."
+        );
+    });
+}
 
         resetAiChat();
     }

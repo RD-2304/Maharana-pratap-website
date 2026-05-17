@@ -35,6 +35,7 @@ content="C:\Users\acer\Maharana pratap website\maharana-images.jpg">
 
     <link rel="preload" as="image" href="hero-front-image.webp">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -376,18 +377,51 @@ content="C:\Users\acer\Maharana pratap website\maharana-images.jpg">
                 </div>
 
 
-            <form id="ai-question-form" class="ai-question-form">
-                <label class="sr-only" for="ai-question-input">Ask Pratap AI</label>
-                <input
-                    type="text"
-                    id="ai-question-input"
-                    placeholder="Ask about Maharana Pratap..."
-                    autocomplete="off"
-                >
-                <button type="submit">Ask AI</button>
-            </form>
-        </section>
+           <form id="ai-question-form" class="ai-question-form">
+    <label class="sr-only" for="ai-question-input">
+        Ask Pratap AI
+    </label>
 
+    <div class="ai-input-wrapper">
+
+        <input
+            type="text"
+            id="ai-question-input"
+            placeholder="Ask about Maharana Pratap..."
+            autocomplete="off"
+        />
+
+     <div class="ai-input-icons">
+
+    <!-- Microphone -->
+    <button
+        type="button"
+        id="voice-search-btn"
+        class="search-icon-btn"
+        title="Voice search"
+    >
+        <span class="material-icons">
+            mic
+        </span>
+    </button>
+
+    <!-- Camera -->
+    <button
+        type="button"
+        id="camera-btn"
+        class="search-icon-btn"
+        title="Camera search"
+    >
+        <span class="material-icons">
+            photo_camera
+        </span>
+    </button>
+
+</div>
+
+    <button type="submit">Ask AI</button>
+</form>
+</section>
 
         <section id="key-facts">
             <h2>Key Facts</h2>
