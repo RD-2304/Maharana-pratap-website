@@ -42,18 +42,59 @@ document.addEventListener('DOMContentLoaded', function() {
         bio.hidden = true;
         section.classList.remove('is-open');
 
+        let lastPointerActivation = 0;
+
+        const scrollDeveloperBioIntoView = () => {
+            const needsScrollHelp = mediaMatches('(max-width: 760px), (hover: none), (pointer: coarse)');
+
+            if (!needsScrollHelp) return;
+
+            window.requestAnimationFrame(() => {
+                bio.scrollIntoView({
+                    behavior: mediaMatches('(prefers-reduced-motion: reduce)') ? 'auto' : 'smooth',
+                    block: 'nearest',
+                    inline: 'nearest'
+                });
+            });
+        };
+
         const toggleDeveloperBio = () => {
             const isOpening = bio.hidden;
             bio.hidden = !isOpening;
             toggle.setAttribute('aria-expanded', isOpening ? 'true' : 'false');
             section.classList.toggle('is-open', isOpening);
+
+            if (isOpening) {
+                scrollDeveloperBioIntoView();
+            }
         };
 
-        toggle.addEventListener('click', toggleDeveloperBio);
+        const activateDeveloperBio = event => {
+            if (event) {
+                event.preventDefault();
+            }
+
+            toggleDeveloperBio();
+        };
+
+        toggle.addEventListener('pointerup', event => {
+            if (event.pointerType === 'mouse' && event.button !== 0) return;
+
+            lastPointerActivation = Date.now();
+            activateDeveloperBio(event);
+        });
+
+        toggle.addEventListener('click', event => {
+            if (Date.now() - lastPointerActivation < 500) {
+                event.preventDefault();
+                return;
+            }
+
+            activateDeveloperBio(event);
+        });
         toggle.addEventListener('keydown', event => {
             if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                toggleDeveloperBio();
+                activateDeveloperBio(event);
             }
         });
     });

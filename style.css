@@ -1117,6 +1117,8 @@ li {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-height: 44px;
+    padding: 0.35rem 0.65rem;
     font-size: 1.1rem;
     font-weight: 600;
     margin: 0 0 8px;
@@ -1124,6 +1126,8 @@ li {
     color: #f3c45c;
     cursor: pointer;
     user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(243, 196, 92, 0.28);
     transition: color 0.2s ease, transform 0.2s ease;
 }
 
