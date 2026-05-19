@@ -1013,7 +1013,7 @@ button:hover {
 
 footer {
     text-align: center;
-    padding: 1.75rem;
+    padding: 1.75rem 1.25rem 2rem;
     background-color: #1d1d1d;
     color: white;
     position: static;
@@ -1084,30 +1084,46 @@ li {
 }
 
 .developer-section {
-    background-color: #1a1a1a; /* Matches the dark background in your image */
+    background-color: #1a1a1a;
     color: #ffffff;
     text-align: center;
-    padding: 20px 10px;
+    padding: 1.25rem 0 0;
+    margin: 1.25rem auto 0;
+    max-width: 680px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .footer-divider {
     border: 0;
     border-top: 1px solid #333;
-    width: 50%;
-    margin: 0 auto 20px auto;
+    width: min(50%, 320px);
+    margin: 0 auto 1rem;
+}
+
+.dev-image {
+    display: block;
+    width: clamp(120px, 18vw, 160px);
+    height: clamp(120px, 18vw, 160px);
+    object-fit: contain;
+    margin: 0 auto 0.85rem;
+    padding: 6px;
+    background-color: #080808;
+    border: 1px solid rgba(218, 165, 32, 0.42);
+    border-radius: 14px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
 }
 
 .dev-name {
     font-size: 1.1rem;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin: 0 0 8px;
     letter-spacing: 0.5px;
+    color: #f3c45c;
 }
 
 .dev-bio {
     font-size: 0.9rem;
-    color: #b3b3b3; /* Slightly dimmed for better visual hierarchy */
+    color: #b3b3b3;
     max-width: 600px;
     margin: 0 auto;
     line-height: 1.5;
