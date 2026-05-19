@@ -321,6 +321,18 @@ document.addEventListener('DOMContentLoaded', function() {
             return 'I can answer questions about Maharana Pratap\'s biography, Haldighati, Chetak, Mewar, allies, timeline, and legacy.';
         };
 
+        const buildGoogleSearchUrl = (query) => {
+            const url = new URL('https://www.google.com/search');
+            url.searchParams.set('q', query);
+            return url.toString();
+        };
+
+        const redirectToGoogleSearch = (query) => {
+            const cleanQuery = query.trim();
+            if (!cleanQuery) return;
+            window.location.href = buildGoogleSearchUrl(cleanQuery);
+        };
+
         const resetAiChat = () => {
             aiWindow.innerHTML = '';
             addAiMessage('Pratap AI', 'Ask me about Maharana Pratap', 'bot');
@@ -340,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         aiForm.addEventListener('submit', event => {
             event.preventDefault();
-            askAi(aiInput.value);
+            redirectToGoogleSearch(aiInput.value);
         });
 
         aiPrompts.forEach(prompt => {
@@ -387,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     if (transcript.trim()) {
-                        aiInput.value = transcript.trim();
+                        redirectToGoogleSearch(transcript.trim());
                         aiInput.focus();
                     }
                     
@@ -410,15 +422,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-      if (cameraBtn) {
-    cameraBtn.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        alert(
-            "Camera search feature coming soon! You will be able to search using images."
-        );
-    });
-}
+        if (cameraBtn) {
+            cameraBtn.addEventListener('click', event => {
+                event.preventDefault();
+                alert('Camera search feature coming soon! You will be able to search using images.');
+            });
+        }
 
         resetAiChat();
     }

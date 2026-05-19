@@ -1959,6 +1959,7 @@ nav ul li a {
     display: flex;
     align-items: center;
     width: 100%;
+    min-width: 0;
     border: 1px solid #e5d8d8;
     border-radius: 20px;
     background: #fff;
@@ -1968,6 +1969,7 @@ nav ul li a {
 
 .ai-question-form input {
     flex: 1;
+    min-width: 0;
     border: none;
     outline: none;
     padding: 16px 20px;
@@ -1986,6 +1988,8 @@ nav ul li a {
 .search-icon-btn {
     width: 42px;
     height: 42px;
+    flex: 0 0 42px;
+    padding: 0;
     border: none;
     border-radius: 50%;
     background: rgba(0,0,0,0.05);
@@ -2002,13 +2006,26 @@ nav ul li a {
     background: rgba(0,0,0,0.1);
 }
 
+.search-icon-btn:disabled {
+    cursor: wait;
+    opacity: 0.72;
+}
+
+.search-icon-btn.is-active {
+    background: rgba(139, 0, 0, 0.16);
+}
+
+.search-icon-btn.is-active .material-icons {
+    color: #8b0000;
+}
+
 .search-icon-btn .material-icons {
     font-size: 22px;
     color: #5f6368;
 }
 
 /* Submit button style */
-.ai-question-form button {
+.ai-question-form > button[type="submit"] {
     min-height: 52px;
     padding-inline: 1.35rem;
     border-radius: 16px;
@@ -2049,6 +2066,10 @@ nav ul li a {
 
     .ai-question-form {
         grid-template-columns: 1fr;
+    }
+
+    .ai-question-form > button[type="submit"] {
+        width: 100%;
     }
 }
 
