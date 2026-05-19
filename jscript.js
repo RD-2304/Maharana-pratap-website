@@ -28,6 +28,36 @@ function mediaMatches(query) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    const developerSections = document.querySelectorAll('.developer-section');
+    developerSections.forEach(section => {
+        const toggle = section.querySelector('.dev-name');
+        const bio = section.querySelector('.dev-bio');
+
+        if (!toggle || !bio) return;
+
+        toggle.classList.add('dev-toggle');
+        toggle.setAttribute('role', 'button');
+        toggle.setAttribute('tabindex', '0');
+        toggle.setAttribute('aria-expanded', 'false');
+        bio.hidden = true;
+        section.classList.remove('is-open');
+
+        const toggleDeveloperBio = () => {
+            const isOpening = bio.hidden;
+            bio.hidden = !isOpening;
+            toggle.setAttribute('aria-expanded', isOpening ? 'true' : 'false');
+            section.classList.toggle('is-open', isOpening);
+        };
+
+        toggle.addEventListener('click', toggleDeveloperBio);
+        toggle.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleDeveloperBio();
+            }
+        });
+    });
+
     // Background music
     const audio = document.createElement('audio');
     const audioButton = document.createElement('button');
