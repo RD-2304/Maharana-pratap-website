@@ -210,6 +210,52 @@ nav ul li a:hover {
     margin-left: auto;
 }
 
+
+.live-meet-button {
+    position: fixed;
+    top: 1.1rem;
+    right: 1.1rem;
+    z-index: 3000;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+    color: #ffffff;
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+}
+
+.live-meet-button:hover {
+    background: linear-gradient(135deg, #0d9488 0%, #115e59 100%);
+    transform: translateY(-1px);
+}
+
+
+ .live-meet-button:focus-visible {
+    outline: 3px solid rgba(255, 210, 128, 0.95);
+    outline-offset: 3px;
+}
+
+
+.live-meet-icon {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+    color: currentColor;
+}
+
+.live-meet-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+}
+
 @media (max-width: 1024px) {
     nav {
         gap: 0.8rem;
@@ -254,6 +300,14 @@ nav ul li a:hover {
     
     .language-selector {
         margin-left: 0;
+    }
+
+    .live-meet-button {
+        padding: 0.6rem 0.9rem;
+    }
+
+    .live-meet-button span:last-child {
+        display: none;
     }
 }
 .info-highlight {
@@ -2237,427 +2291,6 @@ nav ul li a {
 .header-actions .language-selector {
     order: 0;
     margin-left: 0;
-}
-
-.live-meeting-toggle {
-    min-height: 46px;
-    margin: 0;
-    padding: 0.62rem 0.9rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.48rem;
-    border: 1px solid rgba(255, 209, 102, 0.42);
-    border-radius: 999px;
-    background: linear-gradient(135deg, #087f74, #0b9c7f);
-    color: #fff;
-    box-shadow: 0 10px 22px rgba(5, 82, 74, 0.3);
-    font-size: 0.84rem;
-    line-height: 1;
-    white-space: nowrap;
-    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-}
-
-.live-meeting-toggle:hover,
-.live-meeting-toggle[aria-expanded="true"] {
-    background: linear-gradient(135deg, #086d66, #087f74);
-    transform: translateY(-1px);
-    box-shadow: 0 14px 28px rgba(5, 82, 74, 0.4);
-}
-
-.live-meeting-toggle:focus-visible,
-.live-meeting-close:focus-visible,
-.live-meeting-form button:focus-visible,
-.live-meeting-stage button:focus-visible {
-    outline: 3px solid #ffd166;
-    outline-offset: 3px;
-}
-
-.live-meeting-toggle svg,
-.live-meeting-brand-icon svg {
-    width: 23px;
-    height: 23px;
-    display: block;
-    flex: 0 0 auto;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linejoin: round;
-}
-
-.live-meeting-toggle-label {
-    font-weight: 700;
-}
-
-body.meeting-open {
-    overflow: hidden;
-}
-
-.live-meeting-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 5000;
-    display: grid;
-    place-items: center;
-    padding: clamp(0.75rem, 3vw, 2rem);
-}
-
-.live-meeting-modal[hidden] {
-    display: none;
-}
-
-.live-meeting-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(20, 12, 10, 0.72);
-    backdrop-filter: blur(4px);
-}
-
-.live-meeting-room {
-    position: relative;
-    width: min(700px, 100%);
-    max-height: calc(100dvh - clamp(1.5rem, 6vw, 4rem));
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border: 1px solid rgba(255, 209, 102, 0.26);
-    border-radius: 26px;
-    background: #fffdf8;
-    box-shadow: 0 32px 90px rgba(12, 8, 8, 0.42);
-    animation: live-meeting-arrive 0.22s ease both;
-}
-
-.live-meeting-room.is-in-call {
-    width: min(1180px, 100%);
-    height: min(820px, calc(100dvh - clamp(1.5rem, 6vw, 4rem)));
-}
-
-.live-meeting-room-header {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 1rem 1.1rem;
-    border-bottom: 1px solid rgba(139, 0, 0, 0.11);
-    background: linear-gradient(135deg, #fff7e5, #fffdf8);
-}
-
-.live-meeting-brand {
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    gap: 0.72rem;
-}
-
-.live-meeting-brand-icon {
-    width: 45px;
-    height: 45px;
-    flex: 0 0 45px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 14px;
-    background: #e5f6f2;
-    color: #087f74;
-}
-
-.live-meeting-kicker {
-    display: block;
-    margin-bottom: 0.17rem;
-    color: #087f74;
-    font-size: 0.7rem;
-    font-weight: 800;
-    line-height: 1;
-    text-transform: uppercase;
-}
-
-.live-meeting-room h2 {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    color: #271815;
-    font-size: clamp(1.12rem, 3vw, 1.32rem);
-    line-height: 1.2;
-}
-
-.live-meeting-close {
-    width: 42px;
-    height: 42px;
-    min-height: 42px;
-    margin: 0;
-    padding: 0;
-    flex: 0 0 42px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 0;
-    border-radius: 50%;
-    background: #f0e6d9;
-    color: #45342d;
-    font-size: 1.55rem;
-    line-height: 1;
-}
-
-.live-meeting-close:hover {
-    background: #e6d5bd;
-    color: #8b0000;
-}
-
-.live-meeting-setup {
-    padding: clamp(1.15rem, 4vw, 1.8rem);
-}
-
-.live-meeting-description {
-    margin: 0 0 1.15rem;
-    color: #55453e;
-    font-size: 1rem;
-    line-height: 1.55;
-}
-
-.live-meeting-form {
-    max-width: none;
-    margin: 0;
-    gap: 0.68rem;
-}
-
-.live-meeting-form label {
-    color: #3a2b25;
-    font-size: 0.88rem;
-}
-
-.live-meeting-form input {
-    padding: 0.78rem 0.9rem;
-    border-radius: 13px;
-    background: #fff;
-    font-size: 0.94rem;
-}
-
-.live-meeting-code-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 0.6rem;
-}
-
-.live-meeting-form button {
-    min-height: 48px;
-    margin: 0;
-    border-radius: 13px;
-}
-
-.live-meeting-new-code {
-    padding-inline: 0.9rem;
-    background: #f0e6d9;
-    color: #5b312c;
-}
-
-.live-meeting-new-code:hover {
-    background: #e4d2b8;
-}
-
-.live-meeting-join {
-    margin-top: 0.45rem !important;
-    background: linear-gradient(135deg, #087f74, #0b9c7f);
-}
-
-.live-meeting-join:hover {
-    background: linear-gradient(135deg, #086d66, #087f74);
-}
-
-.live-meeting-join:disabled {
-    cursor: wait;
-    opacity: 0.75;
-}
-
-.live-meeting-note,
-.live-meeting-error {
-    margin: 1rem 0 0;
-    padding: 0.72rem 0.85rem;
-    border-radius: 13px;
-    background: #f8f2e8;
-    color: #66564e;
-    font-size: 0.82rem;
-    line-height: 1.45;
-}
-
-.live-meeting-error {
-    background: #fff0ee;
-    color: #8b0000;
-}
-
-.live-meeting-stage {
-    min-height: 0;
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    background: #17191d;
-}
-
-.live-meeting-stage[hidden] {
-    display: none;
-}
-
-.live-meeting-stage-toolbar {
-    flex: 0 0 auto;
-    padding: 0.65rem 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.8rem;
-    color: #eee9df;
-    background: #23262c;
-}
-
-.live-meeting-stage-toolbar p {
-    margin: 0;
-    font-size: 0.88rem;
-}
-
-.live-meeting-stage-actions {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.live-meeting-stage-actions button {
-    min-height: 39px;
-    margin: 0;
-    padding: 0.48rem 0.72rem;
-    border-radius: 10px;
-    font-size: 0.78rem;
-}
-
-.live-meeting-share {
-    background: #087f74;
-}
-
-.live-meeting-leave {
-    background: #8b2727;
-}
-
-.live-meeting-frame {
-    min-height: 420px;
-    flex: 1 1 auto;
-}
-
-.live-meeting-frame iframe {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
-
-.live-meeting-status {
-    flex: 0 0 auto;
-    margin: 0;
-    padding: 0.42rem 0.8rem;
-    background: #23262c;
-    color: #ddd4c7;
-    font-size: 0.76rem;
-    text-align: center;
-}
-
-@keyframes live-meeting-arrive {
-    from {
-        opacity: 0;
-        transform: translateY(10px) scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-@media (max-width: 700px) {
-    .header-actions {
-        order: -1;
-        justify-self: end;
-        margin-left: 0;
-    }
-
-    .live-meeting-toggle {
-        min-height: 44px;
-        padding: 0.58rem 0.8rem;
-    }
-
-    .live-meeting-toggle-label {
-        font-size: 0.8rem;
-    }
-}
-
-@media (max-width: 560px) {
-    .live-meeting-toggle {
-        width: 45px;
-        padding: 0;
-        justify-content: center;
-    }
-
-    .live-meeting-toggle-label {
-        display: none;
-    }
-
-    .live-meeting-modal {
-        padding: 0;
-    }
-
-    .live-meeting-room,
-    .live-meeting-room.is-in-call {
-        width: 100%;
-        height: 100dvh;
-        max-height: none;
-        border: 0;
-        border-radius: 0;
-    }
-
-    .live-meeting-room-header {
-        padding: 0.72rem 0.75rem;
-    }
-
-    .live-meeting-brand-icon {
-        width: 40px;
-        height: 40px;
-        flex-basis: 40px;
-    }
-
-    .live-meeting-setup {
-        overflow-y: auto;
-        padding: 1rem 0.85rem;
-    }
-
-    .live-meeting-code-row {
-        grid-template-columns: 1fr;
-    }
-
-    .live-meeting-new-code {
-        width: 100%;
-    }
-
-    .live-meeting-stage-toolbar {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 0.58rem 0.7rem;
-    }
-
-    .live-meeting-stage-actions {
-        width: 100%;
-    }
-
-    .live-meeting-stage-actions button {
-        flex: 1 1 auto;
-    }
-
-    .live-meeting-frame {
-        min-height: 0;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .live-meeting-room {
-        animation: none;
-    }
-
-    .live-meeting-toggle {
-        transition: none;
-    }
 }
 
 /* Disclaimer Container */

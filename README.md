@@ -19,7 +19,6 @@ This is a comprehensive website dedicated to Maharana Pratap, the legendary Rajp
 - Smooth scrolling navigation
 - Comprehensive historical content
 - Mobile-friendly layout
-- In-page live-room interface with shareable private invitation codes
 - Browser privacy controls and safer contact email composition
 
 ## Technologies Used
@@ -32,7 +31,7 @@ This is a comprehensive website dedicated to Maharana Pratap, the legendary Rajp
 
 Open `index.html` in a web browser.
 
-For publishing and live-room privacy guidance, see [SECURITY.md](SECURITY.md).
+For publishing and privacy guidance, see [SECURITY.md](SECURITY.md).
 
 ## Sources
 

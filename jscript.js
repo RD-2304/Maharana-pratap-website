@@ -99,369 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Branded in-page meeting room. Jitsi supplies the call connection inside this site.
-    const siteNav = document.querySelector('header nav');
-    const meetingQueryKey = 'room';
-    let meetingApi = null;
-    let meetingScriptPromise = null;
-    let meetingFocusBeforeOpen = null;
-    let meetingSessionId = 0;
-
-    const normalizeMeetingCode = value => String(value || '')
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9-]+/g, '-')
-        .replace(/^-+|-+$/g, '')
-        .slice(0, 48);
-
-    const createMeetingCode = () => {
-        if (!window.crypto || typeof window.crypto.getRandomValues !== 'function') {
-            return '';
-        }
-
-        const words = ['mewar', 'chetak', 'pratap', 'aravalli'];
-        const randomWord = words[Math.floor(Math.random() * words.length)];
-        const randomSuffix = Array.from(window.crypto.getRandomValues(new Uint8Array(12)), byte => byte.toString(16).padStart(2, '0')).join('');
-        return `${randomWord}-${randomSuffix}`;
-    };
-
-    const buildMeetingInviteUrl = code => {
-        const inviteUrl = new URL('index.html', window.location.href);
-        inviteUrl.searchParams.delete(meetingQueryKey);
-        inviteUrl.hash = new URLSearchParams({ [meetingQueryKey]: code }).toString();
-        return inviteUrl.toString();
-    };
-
-    const updateMeetingAddress = code => {
-        const currentPageUrl = new URL(window.location.href);
-        currentPageUrl.searchParams.delete(meetingQueryKey);
-        currentPageUrl.hash = code
-            ? new URLSearchParams({ [meetingQueryKey]: code }).toString()
-            : '';
-        window.history.replaceState({}, '', currentPageUrl);
-    };
-
-    const copyText = async value => {
-        if (navigator.clipboard && window.isSecureContext) {
-            await navigator.clipboard.writeText(value);
-            return;
-        }
-
-        const copyInput = document.createElement('textarea');
-        copyInput.value = value;
-        copyInput.setAttribute('readonly', '');
-        copyInput.style.position = 'fixed';
-        copyInput.style.opacity = '0';
-        document.body.appendChild(copyInput);
-        copyInput.select();
-        document.execCommand('copy');
-        copyInput.remove();
-    };
-
-    const liveMeetingToggle = document.createElement('button');
-    liveMeetingToggle.type = 'button';
-    liveMeetingToggle.className = 'live-meeting-toggle';
-    liveMeetingToggle.setAttribute('aria-controls', 'live-meeting-modal');
-    liveMeetingToggle.setAttribute('aria-expanded', 'false');
-    liveMeetingToggle.setAttribute('aria-haspopup', 'dialog');
-    liveMeetingToggle.setAttribute('aria-label', 'Open Live Room');
-    liveMeetingToggle.innerHTML = `
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 7.5h10a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2z"></path>
-            <path d="M16 10.25l5-2.75v9l-5-2.75z"></path>
-        </svg>
-        <span class="live-meeting-toggle-label">Live Room</span>
-    `;
-
-    if (siteNav) {
-        const headerActions = document.createElement('div');
-        const languageSelector = siteNav.querySelector('.language-selector');
-        headerActions.className = 'header-actions';
-
-        if (languageSelector) {
-            headerActions.appendChild(languageSelector);
-        }
-
-        headerActions.appendChild(liveMeetingToggle);
-        siteNav.appendChild(headerActions);
-    }
-
-    const liveMeetingModal = document.createElement('div');
-    liveMeetingModal.className = 'live-meeting-modal';
-    liveMeetingModal.id = 'live-meeting-modal';
-    liveMeetingModal.hidden = true;
-    liveMeetingModal.innerHTML = `
-        <div class="live-meeting-backdrop" data-meeting-close></div>
-        <section class="live-meeting-room" role="dialog" aria-modal="true" aria-labelledby="live-meeting-title" tabindex="-1">
-            <div class="live-meeting-room-header">
-                <div class="live-meeting-brand">
-                    <span class="live-meeting-brand-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M4 7.5h10a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2z"></path>
-                            <path d="M16 10.25l5-2.75v9l-5-2.75z"></path>
-                        </svg>
-                    </span>
-                    <div>
-                        <span class="live-meeting-kicker">Video meeting</span>
-                        <h2 id="live-meeting-title">Live Room</h2>
-                    </div>
-                </div>
-                <button class="live-meeting-close" type="button" data-meeting-close aria-label="Close live meeting room">&times;</button>
-            </div>
-            <div class="live-meeting-setup">
-                <p class="live-meeting-description">Start your own meeting room here and invite people with a link to this website.</p>
-                <form class="live-meeting-form">
-                    <label for="meeting-name">Your name</label>
-                    <input id="meeting-name" name="meeting-name" type="text" maxlength="40" placeholder="Enter your name" autocomplete="name">
-                    <label for="meeting-code">Room code</label>
-                    <div class="live-meeting-code-row">
-                        <input id="meeting-code" name="meeting-code" type="text" maxlength="48" placeholder="Create a room or enter a code" autocomplete="off" autocapitalize="none" spellcheck="false">
-                        <button class="live-meeting-new-code" type="button">Private Code</button>
-                    </div>
-                    <button class="live-meeting-join" type="submit">Start or Join Meeting</button>
-                </form>
-                <p class="live-meeting-note">Use Private Code for a hard-to-guess invitation and share it only with guests. When you join, your display name, camera, and microphone are handled by the embedded meeting service.</p>
-            </div>
-            <div class="live-meeting-stage" hidden>
-                <div class="live-meeting-stage-toolbar">
-                    <p>Room: <strong class="live-meeting-room-code"></strong></p>
-                    <div class="live-meeting-stage-actions">
-                        <button class="live-meeting-share" type="button">Copy Invite Link</button>
-                        <button class="live-meeting-leave" type="button">Leave</button>
-                    </div>
-                </div>
-                <div class="live-meeting-frame" aria-label="Rana Live Room video meeting"></div>
-                <p class="live-meeting-status" aria-live="polite">Preparing your meeting room...</p>
-            </div>
-        </section>
-    `;
-    document.body.appendChild(liveMeetingModal);
-
-    const liveMeetingRoom = liveMeetingModal.querySelector('.live-meeting-room');
-    const liveMeetingSetup = liveMeetingModal.querySelector('.live-meeting-setup');
-    const liveMeetingStage = liveMeetingModal.querySelector('.live-meeting-stage');
-    const liveMeetingFrame = liveMeetingModal.querySelector('.live-meeting-frame');
-    const liveMeetingStatus = liveMeetingModal.querySelector('.live-meeting-status');
-    const liveMeetingForm = liveMeetingModal.querySelector('.live-meeting-form');
-    const liveMeetingName = liveMeetingModal.querySelector('#meeting-name');
-    const liveMeetingCode = liveMeetingModal.querySelector('#meeting-code');
-    const liveMeetingRoomCode = liveMeetingModal.querySelector('.live-meeting-room-code');
-    const liveMeetingJoin = liveMeetingModal.querySelector('.live-meeting-join');
-    let currentMeetingCode = '';
-
-    const setMeetingStatus = message => {
-        liveMeetingStatus.textContent = message;
-    };
-
-    const showMeetingSetupError = message => {
-        const setupMessage = liveMeetingSetup.querySelector('.live-meeting-error') || document.createElement('p');
-        setupMessage.className = 'live-meeting-error';
-        setupMessage.textContent = message;
-        liveMeetingSetup.appendChild(setupMessage);
-    };
-
-    const disposeMeeting = () => {
-        meetingSessionId += 1;
-
-        if (meetingApi) {
-            const meetingToDispose = meetingApi;
-            meetingApi = null;
-            meetingToDispose.dispose();
-        }
-
-        liveMeetingFrame.innerHTML = '';
-        liveMeetingRoom.classList.remove('is-in-call');
-        liveMeetingSetup.hidden = false;
-        liveMeetingStage.hidden = true;
-        liveMeetingJoin.disabled = false;
-        liveMeetingJoin.textContent = 'Start or Join Meeting';
-    };
-
-    const openLiveMeeting = roomCode => {
-        meetingFocusBeforeOpen = document.activeElement;
-        liveMeetingModal.hidden = false;
-        document.body.classList.add('meeting-open');
-        liveMeetingToggle.setAttribute('aria-expanded', 'true');
-
-        if (roomCode) {
-            liveMeetingCode.value = normalizeMeetingCode(roomCode);
-        }
-
-        liveMeetingRoom.focus();
-        liveMeetingName.focus();
-    };
-
-    const closeLiveMeeting = () => {
-        disposeMeeting();
-        updateMeetingAddress('');
-        liveMeetingModal.hidden = true;
-        document.body.classList.remove('meeting-open');
-        liveMeetingToggle.setAttribute('aria-expanded', 'false');
-
-        if (meetingFocusBeforeOpen && typeof meetingFocusBeforeOpen.focus === 'function') {
-            meetingFocusBeforeOpen.focus();
-        }
-    };
-
-    const loadMeetingScript = () => {
-        if (window.JitsiMeetExternalAPI) {
-            return Promise.resolve();
-        }
-
-        if (meetingScriptPromise) {
-            return meetingScriptPromise;
-        }
-
-        meetingScriptPromise = new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = 'https://meet.jit.si/external_api.js';
-            script.async = true;
-            script.referrerPolicy = 'no-referrer';
-            script.onload = resolve;
-            script.onerror = () => {
-                meetingScriptPromise = null;
-                reject(new Error('Meeting service could not be loaded.'));
-            };
-            document.head.appendChild(script);
-        });
-
-        return meetingScriptPromise;
-    };
-
-    const startMeeting = async (requestedCode, displayName) => {
-        const thisMeetingSession = ++meetingSessionId;
-        currentMeetingCode = normalizeMeetingCode(requestedCode) || createMeetingCode();
-
-        if (!currentMeetingCode) {
-            showMeetingSetupError('A secure private room code could not be generated in this browser. Open this website over HTTPS and try again.');
-            return;
-        }
-
-        liveMeetingCode.value = currentMeetingCode;
-        liveMeetingRoomCode.textContent = currentMeetingCode;
-        liveMeetingSetup.hidden = true;
-        liveMeetingStage.hidden = false;
-        liveMeetingRoom.classList.add('is-in-call');
-        setMeetingStatus('Loading your live room...');
-        liveMeetingJoin.disabled = true;
-        liveMeetingJoin.textContent = 'Opening Room...';
-
-        updateMeetingAddress(currentMeetingCode);
-
-        try {
-            await loadMeetingScript();
-
-            if (thisMeetingSession !== meetingSessionId || liveMeetingModal.hidden) {
-                return;
-            }
-
-            meetingApi = new window.JitsiMeetExternalAPI('meet.jit.si', {
-                roomName: `RanaLiveRoom-${currentMeetingCode}`,
-                width: '100%',
-                height: '100%',
-                parentNode: liveMeetingFrame,
-                lang: 'en',
-                userInfo: {
-                    displayName: displayName || 'Guest'
-                }
-            });
-
-            meetingApi.addListener('videoConferenceJoined', () => {
-                setMeetingStatus('You are in the room. Copy the invite link to bring others here.');
-            });
-
-            meetingApi.addListener('readyToClose', () => {
-                disposeMeeting();
-                updateMeetingAddress('');
-                setMeetingStatus('You left the meeting room.');
-            });
-
-            meetingApi.addListener('cameraError', () => {
-                setMeetingStatus('Camera access is unavailable. Check browser permission or continue with audio.');
-            });
-
-            meetingApi.addListener('micError', () => {
-                setMeetingStatus('Microphone access is unavailable. Check browser permission and try again.');
-            });
-
-            meetingApi.addListener('errorOccurred', event => {
-                if (event && event.isFatal) {
-                    setMeetingStatus('The meeting connection was interrupted. Leave and rejoin the room to try again.');
-                }
-            });
-
-            setMeetingStatus('Your room is ready. Use the call controls inside the video area.');
-        } catch (error) {
-            if (thisMeetingSession !== meetingSessionId) {
-                return;
-            }
-
-            disposeMeeting();
-            liveMeetingStatus.textContent = '';
-            showMeetingSetupError('The live room could not load. Check your internet connection and try again.');
-        }
-    };
-
-    liveMeetingToggle.addEventListener('click', () => {
-        openLiveMeeting(liveMeetingCode.value);
-    });
-
-    liveMeetingModal.querySelectorAll('[data-meeting-close]').forEach(closeControl => {
-        closeControl.addEventListener('click', closeLiveMeeting);
-    });
-
-    liveMeetingModal.querySelector('.live-meeting-new-code').addEventListener('click', () => {
-        const privateCode = createMeetingCode();
-
-        if (!privateCode) {
-            showMeetingSetupError('A secure private room code could not be generated in this browser. Open this website over HTTPS and try again.');
-            return;
-        }
-
-        liveMeetingSetup.querySelector('.live-meeting-error')?.remove();
-        liveMeetingCode.value = privateCode;
-        liveMeetingCode.focus();
-    });
-
-    liveMeetingForm.addEventListener('submit', event => {
-        event.preventDefault();
-        liveMeetingSetup.querySelector('.live-meeting-error')?.remove();
-        startMeeting(liveMeetingCode.value, liveMeetingName.value.trim());
-    });
-
-    liveMeetingModal.querySelector('.live-meeting-share').addEventListener('click', async () => {
-        try {
-            await copyText(buildMeetingInviteUrl(currentMeetingCode));
-            setMeetingStatus('Invitation link copied. Share it with anyone you want in this room.');
-        } catch (error) {
-            setMeetingStatus('Copy was unavailable. Copy the room code and share it with your guest.');
-        }
-    });
-
-    liveMeetingModal.querySelector('.live-meeting-leave').addEventListener('click', () => {
-        if (meetingApi) {
-            meetingApi.executeCommand('hangup');
-        }
-
-        disposeMeeting();
-        updateMeetingAddress('');
-        setMeetingStatus('You left the meeting room.');
-    });
-
-    document.addEventListener('keydown', event => {
-        if (event.key === 'Escape' && !liveMeetingModal.hidden) {
-            closeLiveMeeting();
-        }
-    });
-
-    const hashMeetingCode = new URLSearchParams(window.location.hash.replace(/^#/, '')).get(meetingQueryKey);
-    const legacyQueryCode = new URLSearchParams(window.location.search).get(meetingQueryKey);
-    const sharedMeetingCode = normalizeMeetingCode(hashMeetingCode || legacyQueryCode);
-    if (sharedMeetingCode) {
-        updateMeetingAddress(sharedMeetingCode);
-        openLiveMeeting(sharedMeetingCode);
-    }
-
     // Background music
     const audio = document.createElement('audio');
     const audioButton = document.createElement('button');
@@ -593,6 +230,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    const liveMeetButton = document.querySelector('.live-meet-button');
+    if (liveMeetButton) {
+        liveMeetButton.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Best UX: open/enter a known Google Meet room.
+            // IMPORTANT: Replace ROOM_URL below with your actual room link/code.
+            // Use a specific room if you have one.
+            // If you still want “create new” behavior, set meetUrl to 'https://meet.google.com/new'.
+            const meetUrl = 'https://meet.google.com/new';
+
+
+            window.open(meetUrl, '_blank', 'noopener,noreferrer');
+        });
+    }
+
     
     function searchWikipedia(query) {
         if (!wikiResultsContainer) return;
@@ -766,17 +420,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return 'I can answer questions about Maharana Pratap\'s biography, Haldighati, Chetak, Mewar, allies, timeline, and legacy.';
         };
 
-        const buildGoogleSearchUrl = (query) => {
-            const url = new URL('https://www.google.com/search');
-            url.searchParams.set('q', query);
-            return url.toString();
-        };
 
-        const redirectToGoogleSearch = (query) => {
-            const cleanQuery = query.trim();
-            if (!cleanQuery) return;
-            window.location.href = buildGoogleSearchUrl(cleanQuery);
-        };
 
         const resetAiChat = () => {
             aiWindow.innerHTML = '';
@@ -795,10 +439,132 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 250);
         };
 
+        const blockedSexualQueryRegexes = [
+            // English explicit + common variants
+            /\bsex\b/i,
+            /\bsexual\b/i,
+            /\bintercourse\b/i,
+            /\bmake\s*love\b/i,
+            /\bfuck\b/i,
+            /\bfucked\b/i,
+            /\bfucking\b/i,
+            /\bmotherfucker\b/i,
+            /\bshit\b/i,
+            // Obfuscations (basic leetspeak-ish patterns)
+            /f\s*u\s*c\s*k/i,
+            /s\s*e\s*x/i,
+            // Anatomy/explicit terms (generic blocking)
+            /\bpenis\b/i,
+            /\btesticles\b/i,
+            /\bclitoris\b/i,
+            /\bvagina\b/i,
+            /\bboobs\b/i,
+            /\bbreasts\b/i,
+            /\bnudes\b/i,
+            /\bnsfw\b/i,
+            // Sexual acts (generic)
+            /\bblow\s*job\b/i,
+            /\bhandjob\b/i,
+            /\bjerk\s*off\b/i,
+            /\bhot\s*sex\b/i,       
+            /\bpussy\b/i,
+            /\bdick\b/i,
+            /\bass\b/i,
+            /\bcock\b/i,
+            /\bslut\b/i,
+            /\bwhore\b/i,
+            /\bfag\b/i, 
+            /\bcunt\b/i,
+             // Add more patterns as needed
+            /\bprostitute\b/i,
+            /\bporno\b/i,
+            /\bpornography\b/i,
+            /\bporono\b/i,
+            /\bporn\b/i,
+            /\bxxx\b/i,
+            /\badult\b/i,
+            /\berotic\b/i,
+            /\bnaked\b/i,
+            /\bsex\s*worker\b/i,
+            /\bescort\b/i,
+            /\bstripper\b/i,
+            /\bbhenchod\b/i,  
+            /\blulla\b/i,
+            /\bgandu\b/i,
+            /\bchutiya\b/i,
+            /\bpillu\b/i,
+            /\bchod\b/i,
+            /\bmadarchod\b/i,
+            /\btatti\b/i,
+            /\bgand\b/i,
+            /\bgandmar\b/i,
+             // Add more Hindi/Indian language explicit terms as needed
+             /\bchoda\b/i,
+             /\bchodi\b/i,
+             /\bchoddi\b/i,
+             /\bchudai\b/i,
+             /\bmuth\b/i,
+             /\bmuthai\b/i,
+             /\bchus\b/i,
+             /\bpronography\b/i,
+             /\bsexually explicit\b/i,
+             /\badult content\b/i,
+             /\bsexual content\b/i,
+             /\bchatur\b/i,
+             /\bchaturbhuj\b/i,
+             /\bchaturbhuj\b/i,
+             /\bbhosadi\b/i,
+             /\bbhosadiwala\b/i,
+             /\bbhosadiwale\b/i,
+             /\bbhosadiwalon\b/i,
+             /\bbhosadiwal\b/i,
+             /\bbhosadiwale\b/i,
+             /\bchatu\b\b/i,
+             /\bchatur\b/i,
+             /\bchaturbhuj\b/i,
+            
+        
+        ];
+
+        const isBlockedQuery = (q) => {
+            const s = (q || '').toLowerCase();
+            if (!s.trim()) return false;
+            return blockedSexualQueryRegexes.some(rx => rx.test(s));
+        };
+
+        const addAiWarning = (text) => {
+            addAiMessage('Pratap AI', text, 'bot');
+        };
+
+        const buildGoogleSearchUrl = (query) => {
+            const url = new URL('https://www.google.com/search');
+            url.searchParams.set('q', query);
+            return url.toString();
+        };
+
+        const redirectToGoogleSearch = (query) => {
+            const cleanQuery = query.trim();
+            if (!cleanQuery) return;
+            window.location.href = buildGoogleSearchUrl(cleanQuery);
+        };
+
+        const safeRedirectToGoogleSearch = (query) => {
+            const clean = (query || '').trim();
+            if (!clean) return;
+
+            if (isBlockedQuery(clean)) {
+                addAiWarning('Sorry, this site only supports educational/history questions.Please don\'t use these kind of slangs or explicit terms here.');
+                return;
+            }
+
+            redirectToGoogleSearch(clean);
+        };
+
         aiForm.addEventListener('submit', event => {
             event.preventDefault();
-            redirectToGoogleSearch(aiInput.value);
+            safeRedirectToGoogleSearch(aiInput.value);
         });
+
 
         aiPrompts.forEach(prompt => {
             prompt.addEventListener('click', () => {
@@ -842,12 +608,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     for (let i = event.resultIndex; i < event.results.length; i++) {
                         transcript += event.results[i][0].transcript;
                     }
-                    
-                    if (transcript.trim()) {
-                        redirectToGoogleSearch(transcript.trim());
-                        aiInput.focus();
+
+                    const cleanTranscript = (transcript || '').trim();
+                    if (cleanTranscript) {
+                        if (isBlockedQuery(cleanTranscript)) {
+                            addAiWarning('Sorry, this site only supports educational/history questions . Please don\'t use these kind of slangs or explicit terms here.');
+                        } else {
+                            askAi(cleanTranscript);
+                            aiInput.focus();
+                        }
+
                     }
-                    
+
                     voiceSearchBtn.style.backgroundColor = '';
                     voiceSearchBtn.disabled = false;
                 };
