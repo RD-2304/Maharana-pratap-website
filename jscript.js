@@ -243,7 +243,33 @@ document.addEventListener('DOMContentLoaded', function() {
             const meetUrl = 'https://meet.google.com/new';
 
 
-            window.open(meetUrl, '_blank', 'noopener,noreferrer');
+            const win = window.open(meetUrl, '_blank', 'noopener,noreferrer');
+
+            // If the browser lets us detect the popup closing, redirect back to this website.
+            // (Google Meet may restrict access; this fallback works when allowed.)
+            if (win) {
+                const redirectBack = () => {
+                    try {
+                        window.location.href = window.location.origin + window.location.pathname;
+                    } catch (e) {
+                        window.location.href = '/';
+                    }
+                };
+
+                const timer = window.setInterval(() => {
+                    try {
+                        if (win.closed) {
+                            window.clearInterval(timer);
+                            redirectBack();
+                        }
+                    } catch (err) {
+                        // Access to window can be blocked; do nothing.
+                    }
+                }, 1000);
+
+                // Safety: stop checking after 30 minutes
+                window.setTimeout(() => window.clearInterval(timer), 30 * 60 * 1000);
+            }
         });
     }
 
