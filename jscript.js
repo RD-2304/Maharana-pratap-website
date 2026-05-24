@@ -429,8 +429,14 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         const askAi = (question) => {
-            const cleanQuestion = question.trim();
+            const cleanQuestion = (question || '').toString().trim();
             if (!cleanQuestion) return;
+
+            // Defensive: also block inside AI flow (voice + prompt clicks)
+            if (isBlockedQuery(cleanQuestion)) {
+                addAiWarning('Sorry, this site only supports educational/history questions.Please don\'t use these kind of slangs or explicit terms here.');
+                return;
+            }
 
             addAiMessage('You', cleanQuestion, 'user');
             aiInput.value = '';
@@ -438,6 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 addAiMessage('Pratap AI', getAiAnswer(cleanQuestion), 'bot');
             }, 250);
         };
+
 
         const blockedSexualQueryRegexes = [
             // English explicit + common variants
@@ -526,11 +533,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         ];
 
+        const normalizeUserQuery = (q) => {
+            let s = (q || '').toString();
+            // Normalize common unicode/hidden characters and whitespace for consistent blocking
+            s = s.replace(/\u200B|\u200C|\u200D|\uFEFF/g, ''); // zero-width chars
+            s = s.replace(/\s+/g, ' ').trim();
+            return s.toLowerCase();
+        };
+
         const isBlockedQuery = (q) => {
-            const s = (q || '').toLowerCase();
+            const s = normalizeUserQuery(q);
             if (!s.trim()) return false;
             return blockedSexualQueryRegexes.some(rx => rx.test(s));
         };
+
 
         const addAiWarning = (text) => {
             addAiMessage('Pratap AI', text, 'bot');

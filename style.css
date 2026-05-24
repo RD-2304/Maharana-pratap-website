@@ -281,6 +281,18 @@ nav ul li a:hover {
         flex-wrap: wrap;
         gap: 0.6rem;
     }
+
+    /* Prevent oversized Live Meet SVG on some mobile browsers */
+    .live-meet-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    .live-meet-icon svg {
+        width: 100%;
+        height: 100%;
+    }
+
     
     nav ul {
         gap: 0.6rem;
