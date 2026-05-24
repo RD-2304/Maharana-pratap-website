@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://meet.jit.si; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' https://en.wikipedia.org; frame-src https://meet.jit.si; object-src 'none'; base-uri 'self'; form-action 'self' https://www.google.com; upgrade-insecure-requests">
+    <meta name="referrer" content="no-referrer">
     <meta name="description" content="Contact the Maharana Pratap Website team with questions, feedback, or event information.">
     <title>Contact - Maharana Pratap</title>
     <link rel="preload" as="image" href="hero-front-image.webp">
@@ -27,27 +29,28 @@
         <section class="contact-panel">
             <h1>Contact Us</h1>
             <p>Send feedback, corrections, or event updates for the Maharana Pratap website.</p>
-            <form class="contact-form" action="mailto:infomaharanapratap0@gmail.com" target="_top" method="post" enctype="text/plain">
+            <div class="contact-form" role="form" aria-label="Compose a contact email">
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" autocomplete="name" required>
+                <input type="text" id="name" name="name" autocomplete="name" maxlength="80" required>
 
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" autocomplete="email" required>
+                <input type="email" id="email" name="email" autocomplete="email" maxlength="254" required>
 
                 <label for="message">Message</label>
-                <textarea id="message" name="message" required></textarea>
+                <textarea id="message" name="message" maxlength="1200" required></textarea>
 
-                <button type="submit">Send Message</button>
-            </form>
+                <button type="button">Compose Email</button>
+            </div>
+            <p class="contact-security-note">For your safety, do not send passwords, payment details, or live-room invitation links. Your email app opens to send this message; this website does not store the form text.</p>
 
             <div id="contact-tribute" class="contact-tribute" role="status" aria-live="polite" tabindex="-1" hidden>
                 <div class="tribute-art">
                     <img class="tribute-image" src="contact-pratap-sketch.jpg" alt="Sketched portrait of Maharana Pratap" loading="eager" decoding="async" fetchpriority="high">
                 </div>
                 <div class="tribute-copy">
-                    <span class="section-kicker">Message Sent</span>
+                    <span class="section-kicker">Email Draft Ready</span>
                     <h2>Jai Maa Bhawani 🚩</h2>
-                    <p>Thank you for sharing your feedback. Your email app will open to complete sending the message.</p>
+                    <p>Your email app will open next. Review the recipient and message, then choose send to contact us.</p>
                 </div>
             </div>
         </section>

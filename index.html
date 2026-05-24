@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://meet.jit.si; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' https://en.wikipedia.org; frame-src https://meet.jit.si; object-src 'none'; base-uri 'self'; form-action 'self' https://www.google.com; upgrade-insecure-requests">
+    <meta name="referrer" content="no-referrer">
     <title>Maharana Pratap - The Brave Warrior</title>
 
    <!-- Open Graph -->
@@ -16,7 +18,7 @@ content="Discover the story of Maharana Pratap Singh I, the brave ruler of Mewar
 content="https://rd-2304.github.io/Maharana-pratap-website/">
 
 <meta property="og:image"
-content="C:\Users\acer\Maharana pratap website\maharana-images.jpg">
+content="https://rd-2304.github.io/Maharana-pratap-website/maharana-images.jpg">
 
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -29,7 +31,7 @@ content="C:\Users\acer\Maharana pratap website\maharana-images.jpg">
 content="Discover the story of Maharana Pratap Singh I...">
 
 <meta name="twitter:image"
-content="C:\Users\acer\Maharana pratap website\maharana-images.jpg">
+content="https://rd-2304.github.io/Maharana-pratap-website/maharana-images.jpg">
 
 <meta name="twitter:image:alt" content="Portrait of Maharana Pratap">
 
@@ -215,15 +217,15 @@ content="C:\Users\acer\Maharana pratap website\maharana-images.jpg">
 
   <div class="info-container">
      <h2>Maharana Pratap Jayanti Celebration Details</h2>
-     <button id="learnmore" onclick="toggleContent()">learn more</button>
+     <button id="learnmore" type="button">learn more</button>
 
      <div id="extraContent" style="display: none;">
         <div class="announcement-actions">
             <div class="state-tabs" role="tablist" aria-label="State announcement selection">
-                <button type="button" class="state-tab active" data-state="haryana" aria-selected="true" onclick="showStateInfo('haryana')">Haryana</button>
-                <button type="button" class="state-tab" data-state="punjab" aria-selected="false" onclick="showStateInfo('punjab')">Punjab</button>
+                <button type="button" class="state-tab active" data-state="haryana" aria-selected="true">Haryana</button>
+                <button type="button" class="state-tab" data-state="punjab" aria-selected="false">Punjab</button>
             </div>
-            <a class="youtube-button" href="https://youtu.be/qeVUGnke9ko?si=2VzZxk0Oi6CdFRXw" target="_blank" rel="noopener" role="button" aria-label="Open Maharana Pratap Jayanti YouTube videos">YouTube </a> 
+            <a class="youtube-button" href="https://youtu.be/qeVUGnke9ko?si=2VzZxk0Oi6CdFRXw" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" role="button" aria-label="Open Maharana Pratap Jayanti YouTube videos">YouTube </a>
         </div>
 
         <div id="haryana-info" class="state-info active">
