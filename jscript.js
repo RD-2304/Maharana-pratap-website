@@ -516,6 +516,7 @@ document.addEventListener('DOMContentLoaded', function() {
              /\bchatu\b\b/i,
              /\bchatur\b/i,
              /\bchaturbhuj\b/i,
+             /\bhutiya\b/i,
             
         
         ];
