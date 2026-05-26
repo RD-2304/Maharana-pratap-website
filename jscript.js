@@ -520,7 +520,7 @@ document.addEventListener('DOMContentLoaded', function() {
              /\bhutiyapa\b/i,
             /\bhutiyap\b/i,
             /\bprono\b/i,
-            
+            /\bbhenchodd\b/i,
         
         ];
 
