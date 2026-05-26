@@ -521,6 +521,8 @@ document.addEventListener('DOMContentLoaded', function() {
             /\bhutiyap\b/i,
             /\bprono\b/i,
             /\bbhenchodd\b/i,
+            /\bchut\b/i,
+            /\bchutt\b/i,
         
         ];
 
