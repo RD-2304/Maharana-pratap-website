@@ -421,7 +421,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Defensive: also block inside AI flow (voice + prompt clicks)
             if (isBlockedQuery(cleanQuestion)) {
-                addAiWarning('Sorry, this site only supports educational/history questions.Please don\'t use these kind of slangs or explicit terms here.');
+                addAiWarning('Sorry, this site only supports educational/history questions.Please don\'t use these kind of slangs,offensive language or explicit terms here.');
                 return;
             }
 
