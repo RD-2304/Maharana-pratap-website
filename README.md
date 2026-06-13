@@ -40,6 +40,6 @@ Content sourced from Wikipedia and historical accounts.
 ## Future Enhancements
 
 - Add more images and videos
-- Implement backend for contact form
-- Add search functionality
+- Implement backend for contact form ✅
+- Add search functionality ✅
 - Include audio narrations
