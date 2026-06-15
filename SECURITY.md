@@ -1,5 +1,13 @@
 # Security and Privacy
 
+## Recent Security Improvements (2026)
+
+- **Content Security Policy Hardening**: Removed external domain references (`meet.jit.si`) and unnecessary form action targets that were not in use. Restricted to self-hosted resources only.
+- **Clickjacking Protection**: Added `frame-ancestors 'none'` directive to prevent the site from being embedded in frames on other domains.
+- **MIME Type Sniffing Prevention**: Added `X-Content-Type-Options: nosniff` meta tag to prevent browsers from MIME-sniffing responses.
+- **Browser Compatibility**: Added `X-UA-Compatible: IE=edge` meta tag to ensure consistent rendering in Internet Explorer.
+- **CSP Consistency**: Aligned CSP directives across all pages (index, biography, timeline, battles, gallery, legacy, contact).
+
 ## Protections in the site
 
 - A Content Security Policy limits scripts, frames, media, network calls, and form targets to services the site uses.
@@ -16,8 +24,9 @@ Some important controls require HTTP response headers and cannot be fully provid
 ```text
 Strict-Transport-Security: max-age=31536000; includeSubDomains
 X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
 Referrer-Policy: no-referrer
-Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' https://en.wikipedia.org; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://www.google.com; frame-ancestors 'none'; upgrade-insecure-requests
+Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' https://en.wikipedia.org; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
 Permissions-Policy: geolocation=(), payment=(), usb=()
 ```
 
