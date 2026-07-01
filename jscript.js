@@ -403,7 +403,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         ];
 
-        const addAiMessage = (speaker, text, type) => {
+        const scrollToLatestAiMessage = () => {
+            const latestMessage = aiWindow.querySelector('.ai-message:last-child');
+            if (!latestMessage) return;
+
+            const section = document.getElementById('ai-assistant');
+            const targetY = latestMessage.getBoundingClientRect().top + window.pageYOffset - 90;
+
+            window.scrollTo({
+                top: Math.max(0, targetY),
+                behavior: 'smooth'
+            });
+
+            if (section && section.getBoundingClientRect().top < 0) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        };
+
+        const addAiMessage = (speaker, text, type, options = {}) => {
+            const shouldScroll = options.scrollTo === true;
             const message = document.createElement('div');
             message.className = `ai-message ai-message-${type}`;
 
@@ -417,6 +435,12 @@ document.addEventListener('DOMContentLoaded', function() {
             message.appendChild(copy);
             aiWindow.appendChild(message);
             aiWindow.scrollTop = aiWindow.scrollHeight;
+
+            if (shouldScroll) {
+                window.requestAnimationFrame(() => {
+                    scrollToLatestAiMessage();
+                });
+            }
         };
 
         const getAiAnswer = (question) => {
@@ -463,7 +487,7 @@ document.addEventListener('DOMContentLoaded', function() {
             addAiMessage('You', cleanQuestion, 'user');
             aiInput.value = '';
             window.setTimeout(() => {
-                addAiMessage('Pratap AI', getAiAnswer(cleanQuestion), 'bot');
+                addAiMessage('Pratap AI', getAiAnswer(cleanQuestion), 'bot', { scrollTo: true });
             }, 250);
         };
 
@@ -577,7 +601,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         const addAiWarning = (text) => {
-            addAiMessage('Pratap AI', text, 'bot');
+            addAiMessage('Pratap AI', text, 'bot', { scrollTo: true });
         };
 
         const buildGoogleSearchUrl = (query) => {
