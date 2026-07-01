@@ -582,6 +582,10 @@ document.addEventListener('DOMContentLoaded', function() {
             /\bbhenchodd\b/i,
             /\bchut\b/i,
             /\bchutt\b/i,
+            /\blust\b/i,
+            /\bsexeducation\b/i,
+            /\bluststories\b/i,
+            /\blust stories\b/i,
         
         ];
 
