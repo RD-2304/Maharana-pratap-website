@@ -28,6 +28,41 @@ function mediaMatches(query) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    const applyTheme = (theme) => {
+        body.setAttribute('data-theme', theme);
+
+        if (!themeToggle) return;
+
+        const isDark = theme === 'dark';
+        themeToggle.setAttribute('aria-pressed', String(isDark));
+        themeToggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+        const icon = themeToggle.querySelector('.theme-toggle-icon');
+        const label = themeToggle.querySelector('.theme-toggle-label');
+
+        if (icon) {
+            icon.textContent = isDark ? '🌙' : '☀️';
+        }
+
+        if (label) {
+            label.textContent = isDark ? 'Dark' : 'Theme';
+        }
+    };
+
+    const preferredTheme = safeStorageGet('siteTheme');
+    const initialTheme = preferredTheme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(initialTheme);
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const nextTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            applyTheme(nextTheme);
+            safeStorageSet('siteTheme', nextTheme);
+        });
+    }
+
     const developerSections = document.querySelectorAll('.developer-section');
     developerSections.forEach(section => {
         const toggle = section.querySelector('.dev-name');
