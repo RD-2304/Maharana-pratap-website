@@ -690,7 +690,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         const buildAdvancedFallbackAnswer = (question) => {
-            return `I could not find a strong built-in match for "${question}", but I can still keep the answer inside this chat.\n\nTry asking with a clearer topic name, a person, a place, or a historical event. For the strongest answers on this site, ask about Maharana Pratap, Haldighati, Chetak, Mewar, Chavand, Bhamashah, Bhil allies, timeline, death, or legacy.\n\nConclusion:\nThis static website can answer from its built-in history knowledge and in-page knowledge lookup, but it does not include a private live AI model yet.`;
+            return `I could not find a strong built-in match for "${question}", but I can still keep the answer inside this chat.\n\nTry asking with a clearer topic name, a person, a place, or a historical event. For the strongest answers on this site, ask about Maharana Pratap, Haldighati, Chetak, Mewar, Chavand, Bhamashah, Bhil allies, timeline, death, or legacy.\n\nConclusion:\nThis static website can answer from its built-in history knowledge and in-page knowledge lookup, So the Ai tool make mistakes or Even Show inappropriate answer.`;
         };
 
         const getConversationAnswer = (question, isAdvanced) => {
@@ -809,7 +809,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return `${topic.title}: ${summary}`;
             }
 
-            return `Here is a detailed in-page answer for "${question}".\n\nOverview:\n${summary}\n\nRemember :\n- The Ai is currently under development. So it make mistake in answering questions. \n- If the question needs current news, medical, legal, or financial decisions, verify it with a trusted current source.\n\n`;
+            return `Here is a detailed in-page answer for "${question}".\n\nOverview:\n${summary}\n\nRemember :\n- The Ai is currently under (Beta version). So it make mistake in answering questions. \n- If the question needs current news, medical, legal, or financial decisions, verify it with a trusted current source.\n\n`;
         };
 
         const resolveAiAnswer = async (question, options = {}) => {
