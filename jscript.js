@@ -322,13 +322,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const aiWindow = document.getElementById('ai-chat-window');
     const aiPrompts = document.querySelectorAll('.ai-prompt');
     const aiNewChatButton = document.getElementById('ai-new-chat-button');
+    const aiAdvancedModeButton = document.getElementById('ai-advanced-mode-btn');
 
     if (aiForm && aiInput && aiWindow) {
+        const aiSubmitButton = aiForm.querySelector('button[type="submit"]');
+        let advancedModeEnabled = safeStorageGet('pratapAiAdvancedMode') === 'true';
+        let aiRequestToken = 0;
+
         const aiAnswers = [
             {
-                keywords: ['who', 'about', 'biography', 'maharanapratap', 'pratap', 'introduction'],
+                keywords: ['who was', 'about', 'biography', 'maharanapratap', 'pratap', 'introduction'],
                 answer: 'Maharana Pratap Singh I was the 13th Rana of Mewar. He is remembered for defending Mewar independence, refusing Mughal submission, and leading a long resistance from the Aravalli hills.'
             },
+
             {
                 keywords: ['birth', 'born', 'early', 'childhood', 'kumbhalgarh'],
                 answer: 'Maharana Pratap was born on May 9, 1540, at Kumbhalgarh Fort. He was the eldest son of Maharana Udai Singh II and Rani Jaiwanta Bai (as commonly described). From a young age, he was trained in leadership and warfare.'
@@ -403,6 +409,116 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         ];
 
+        const aiAdvancedFacts = [
+            {
+                keywords: ['who', 'about', 'biography', 'maharanapratap', 'pratap', 'introduction'],
+                facts: [
+                    'He was born in 1540 at Kumbhalgarh Fort in the Sisodia Rajput family of Mewar.',
+                    'He became ruler of Mewar in 1572 after the death of Udai Singh II.',
+                    'His reign is remembered for resistance against Mughal expansion under Akbar.',
+                    'He rebuilt strength from the Aravalli hills instead of accepting submission.'
+                ],
+                context: 'His story is not only about one battle. It is about a long political and military struggle to protect Mewar identity, sovereignty, and morale.',
+                conclusion: 'Maharana Pratap became a lasting symbol of courage because he chose hardship and resistance over surrender.'
+            },
+            {
+                keywords: ['battle', 'haldighati', 'haldighati yuddh', 'war', 'akbar', 'mughal', 'man singh'],
+                facts: [
+                    'The Battle of Haldighati was fought in 1576 near Gogunda in the Haldighati pass.',
+                    'Maharana Pratap faced Mughal forces led by Man Singh I of Amber.',
+                    'The Mughals held the battlefield, but they did not capture Pratap.',
+                    'After the battle, Pratap continued resistance from the hills instead of ending the struggle.'
+                ],
+                context: 'Haldighati matters because it shows the difference between winning ground for a day and permanently subduing a kingdom. Pratap survived, regrouped, and kept Mewar politically alive.',
+                conclusion: 'The battle became famous because Pratap did not allow one military setback to become final defeat.'
+            },
+            {
+                keywords: ['chetak', 'horse', 'wounded', 'rawat jhala', 'escape', 'loyalty', 'courage'],
+                facts: [
+                    'Chetak is remembered in popular tradition as Maharana Pratap\'s loyal horse.',
+                    'The best-known story says Chetak carried the wounded Pratap away after Haldighati.',
+                    'Rawat Jhala is also remembered for helping draw danger away during the crisis.',
+                    'The story represents loyalty, sacrifice, and the emotional bond between warrior and companion.'
+                ],
+                context: 'Some details come from heroic tradition, but the story remains powerful because it expresses the values people associate with Pratap: duty, bravery, and loyalty under pressure.',
+                conclusion: 'Chetak became more than a horse in memory; he became a symbol of devotion in the Maharana Pratap story.'
+            },
+            {
+                keywords: ['guerrilla', 'guerrilla warfare', 'tactics', 'hit and run', 'hill warfare', 'raids', 'strategy', 'after'],
+                facts: [
+                    'Pratap used the Aravalli terrain to avoid fighting only on Mughal terms.',
+                    'His forces relied on fast movement, surprise raids, and withdrawal to difficult ground.',
+                    'Local allies and knowledge of hills, forests, and passes helped his resistance survive.',
+                    'This strategy allowed Mewar to recover strength even when the plains were under pressure.'
+                ],
+                context: 'His strategy was practical. A smaller force could not always defeat a larger empire in open battle, so Pratap used terrain, timing, and endurance as weapons.',
+                conclusion: 'The guerrilla strategy helped turn survival into recovery for Mewar.'
+            },
+            {
+                keywords: ['bhamashah', 'bhil', 'allies', 'support', 'resources', 'financing', 'tribes'],
+                facts: [
+                    'Bhamashah is remembered for providing crucial financial support to Pratap.',
+                    'Bhil allies helped with terrain knowledge, mobility, and local support.',
+                    'The resistance depended on more than royal soldiers; it needed networks, supplies, and trust.',
+                    'These alliances helped Pratap keep fighting during the hardest years.'
+                ],
+                context: 'A long resistance cannot survive on courage alone. Food, money, intelligence, shelter, and local cooperation are what keep a campaign alive.',
+                conclusion: 'Bhamashah and the Bhil allies show that Pratap\'s struggle was supported by a wider Mewar community.'
+            },
+            {
+                keywords: ['mewar', 'kingdom', 'rule', 'rana', 'chittorgarh', 'chavand', 'aravalli', 'capital'],
+                facts: [
+                    'Mewar was Pratap\'s kingdom in present-day Rajasthan.',
+                    'Chittorgarh was central to Mewar history, while later resistance operated from hill regions.',
+                    'Chavand is associated with Pratap\'s later base and recovery efforts.',
+                    'The Aravalli hills gave Mewar defensive depth against a stronger imperial army.'
+                ],
+                context: 'Mewar was not just land to Pratap; it represented dynasty, duty, and independence. Protecting it meant adapting the capital, military style, and political life to harsh conditions.',
+                conclusion: 'Mewar survived because Pratap turned difficult geography into a source of strength.'
+            },
+            {
+                keywords: ['death', 'died', 'chavand', 'january 19', '1597', 'hunting', 'aftermath', 'after'],
+                facts: [
+                    'Maharana Pratap died on January 19, 1597, at Chavand according to common accounts.',
+                    'His successor was Amar Singh I.',
+                    'By his later years, Pratap had recovered important parts of Mewar.',
+                    'His final legacy was continued resistance and the instruction to preserve Mewar independence.'
+                ],
+                context: 'His death did not erase the cause he represented. The memory of his refusal to submit continued through his family, later Rajput memory, and modern public culture.',
+                conclusion: 'Pratap is remembered because his life ended, but his example of self-respect continued.'
+            },
+            {
+                keywords: ['legacy', 'famous', 'remembered', 'inspire', 'jayanti', 'pratap jayanti', 'valor', 'resistance'],
+                facts: [
+                    'He is celebrated as a national and Rajput hero.',
+                    'Maharana Pratap Jayanti honors his birth and his resistance.',
+                    'Statues, stories, films, poems, and school lessons keep his memory alive.',
+                    'His legacy is tied to courage, independence, loyalty, and refusal to surrender.'
+                ],
+                context: 'People remember Pratap because his story gives a clear moral image: a ruler who accepted hardship to defend honor and autonomy.',
+                conclusion: 'His legacy remains strong because it speaks to bravery, dignity, and love for homeland.'
+            },
+            {
+                keywords: ['timeline', 'dates', 'events', 'when', 'born', '1572', '1576', '1597'],
+                facts: [
+                    '1540: Birth at Kumbhalgarh Fort.',
+                    '1572: Accession as Rana of Mewar.',
+                    '1576: Battle of Haldighati.',
+                    'After 1576: Hill resistance and recovery campaigns.',
+                    '1597: Death at Chavand.'
+                ],
+                context: 'The timeline shows a steady arc: birth into royal duty, accession during crisis, a famous battle, years of resistance, and a legacy that outlived him.',
+                conclusion: 'The key dates make Pratap\'s life easier to understand as a long struggle, not a single event.'
+            }
+        ];
+
+        const defaultAdvancedFacts = [
+            'Maharana Pratap was a ruler of Mewar from 1572 to 1597.',
+            'He is best known for resisting Mughal dominance under Emperor Akbar.',
+            'The Battle of Haldighati in 1576 became the most famous event of his life.',
+            'His later resistance relied on the Aravalli hills, loyal allies, and guerrilla tactics.'
+        ];
+
         const scrollToLatestAiMessage = () => {
             const latestMessage = aiWindow.querySelector('.ai-message:last-child');
             if (!latestMessage) return;
@@ -429,6 +545,7 @@ document.addEventListener('DOMContentLoaded', function() {
             name.textContent = speaker;
 
             const copy = document.createElement('p');
+            copy.className = 'ai-message-content';
             copy.textContent = text;
 
             message.appendChild(name);
@@ -443,21 +560,86 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
 
-        const getAiAnswer = (question) => {
+        const addAiLoadingMessage = (label = 'Thinking') => {
+            const message = document.createElement('div');
+            message.className = 'ai-message ai-message-bot ai-message-loading';
+            message.setAttribute('role', 'status');
+
+            const name = document.createElement('strong');
+            name.textContent = 'Pratap AI';
+
+            const loading = document.createElement('span');
+            loading.className = 'ai-loading';
+
+            const text = document.createElement('span');
+            text.textContent = label;
+
+            const dots = document.createElement('span');
+            dots.className = 'ai-loading-dots';
+            dots.setAttribute('aria-hidden', 'true');
+
+            for (let i = 0; i < 3; i += 1) {
+                dots.appendChild(document.createElement('span'));
+            }
+
+            loading.appendChild(text);
+            loading.appendChild(dots);
+            message.appendChild(name);
+            message.appendChild(loading);
+            aiWindow.appendChild(message);
+            aiWindow.scrollTop = aiWindow.scrollHeight;
+            aiWindow.setAttribute('aria-busy', 'true');
+
+            return message;
+        };
+
+        const removeAiLoadingMessage = (message) => {
+            if (message && message.parentNode) {
+                message.parentNode.removeChild(message);
+            }
+
+            aiWindow.setAttribute('aria-busy', 'false');
+        };
+
+        const setAiFormBusy = (isBusy) => {
+            if (aiSubmitButton) {
+                aiSubmitButton.disabled = isBusy;
+            }
+
+            aiForm.classList.toggle('is-loading', isBusy);
+        };
+
+        const wait = (milliseconds) => new Promise(resolve => {
+            window.setTimeout(resolve, milliseconds);
+        });
+
+        const scoreKeywordList = (normalizedQuestion, keywords) => {
+            return keywords.reduce((total, keyword) => {
+                const normalizedKeyword = keyword.toLowerCase();
+                const weight = normalizedKeyword.includes(' ') ? 2 : 1;
+                return total + (normalizedQuestion.includes(normalizedKeyword) ? weight : 0);
+            }, 0);
+        };
+
+        const getBestKeywordMatch = (items, question) => {
             const normalizedQuestion = question.toLowerCase();
             let bestMatch = null;
             let bestScore = 0;
 
-            aiAnswers.forEach(item => {
-                const score = item.keywords.reduce((total, keyword) => {
-                    return total + (normalizedQuestion.includes(keyword) ? 1 : 0);
-                }, 0);
+            items.forEach(item => {
+                const score = scoreKeywordList(normalizedQuestion, item.keywords);
 
                 if (score > bestScore) {
                     bestScore = score;
                     bestMatch = item;
                 }
             });
+
+            return bestMatch;
+        };
+
+        const getAiAnswer = (question) => {
+            const bestMatch = getBestKeywordMatch(aiAnswers, question);
 
             if (bestMatch) {
                 return bestMatch.answer;
@@ -466,15 +648,209 @@ document.addEventListener('DOMContentLoaded', function() {
             return 'I can answer questions about Maharana Pratap\'s biography, Haldighati, Chetak, Mewar, allies, timeline, and legacy.';
         };
 
+        const uniqueList = (items) => {
+            const seen = new Set();
+            return items.filter(item => {
+                if (!item || seen.has(item)) return false;
+                seen.add(item);
+                return true;
+            });
+        };
 
+        const trimToSentences = (text, sentenceLimit) => {
+            const cleaned = (text || '').replace(/\s+/g, ' ').trim();
+            if (!cleaned) return '';
 
+            const sentences = cleaned.match(/[^.!?]+[.!?]+/g);
+            if (!sentences) {
+                return cleaned.length > 700 ? `${cleaned.slice(0, 700).trim()}...` : cleaned;
+            }
+
+            return sentences.slice(0, sentenceLimit).join(' ').trim();
+        };
+
+        const buildAdvancedLocalAnswer = (question, bestMatch) => {
+            const advancedMatch = getBestKeywordMatch(aiAdvancedFacts, question);
+            const facts = uniqueList([
+                ...((advancedMatch && advancedMatch.facts) || []),
+                ...defaultAdvancedFacts
+            ]).slice(0, 7);
+
+            const overview = bestMatch
+                ? bestMatch.answer
+                : 'I can answer from the Maharana Pratap history knowledge built into this site.';
+            const context = advancedMatch
+                ? advancedMatch.context
+                : 'This topic connects to the larger story of Maharana Pratap: Mewar independence, resistance under pressure, and the memory of Rajput courage.';
+            const conclusion = advancedMatch
+                ? advancedMatch.conclusion
+                : 'The main idea is that Pratap is remembered for courage, endurance, and refusal to surrender Mewar autonomy.';
+
+            return `${overview}\n\nKey details:\n- ${facts.join('\n- ')}\n\nContext:\n${context}\n\nConclusion:\n${conclusion}`;
+        };
+
+        const buildAdvancedFallbackAnswer = (question) => {
+            return `I could not find a strong built-in match for "${question}", but I can still keep the answer inside this chat.\n\nTry asking with a clearer topic name, a person, a place, or a historical event. For the strongest answers on this site, ask about Maharana Pratap, Haldighati, Chetak, Mewar, Chavand, Bhamashah, Bhil allies, timeline, death, or legacy.\n\nConclusion:\nThis static website can answer from its built-in history knowledge and in-page knowledge lookup, but it does not include a private live AI model yet.`;
+        };
+
+        const getConversationAnswer = (question, isAdvanced) => {
+            const normalized = normalizeUserQuery(question);
+
+            if (/^(hi|hello|hey|namaste|jai|jai hind|jai maharana)/.test(normalized)) {
+                return isAdvanced
+                    ? 'Namaste. I am ready to answer in Advanced Mode with a detailed response.\n\nYou can ask about Maharana Pratap, Haldighati, Chetak, Mewar, Rajput history, or another clear topic.'
+                    : 'Namaste. Ask me anything about Maharana Pratap or a history topic.';
+            }
+
+            if (/\b(thank you|thanks|dhanyavaad|shukriya)\b/.test(normalized)) {
+                return 'You are welcome. Jai Maharana Pratap.';
+            }
+
+            return null;
+        };
+
+        const getSimpleCalculationAnswer = (question, isAdvanced) => {
+            const normalized = question.toLowerCase().replace(/,/g, '');
+            const match = normalized.match(/(-?\d+(?:\.\d+)?)\s*(\+|-|\*|x|\/|plus|minus|times|multiplied by|divided by)\s*(-?\d+(?:\.\d+)?)/);
+            if (!match) return null;
+
+            const left = Number(match[1]);
+            const operator = match[2];
+            const right = Number(match[3]);
+            let result;
+            let label;
+
+            if (operator === '+' || operator === 'plus') {
+                result = left + right;
+                label = 'addition';
+            } else if (operator === '-' || operator === 'minus') {
+                result = left - right;
+                label = 'subtraction';
+            } else if (operator === '*' || operator === 'x' || operator === 'times' || operator === 'multiplied by') {
+                result = left * right;
+                label = 'multiplication';
+            } else {
+                if (right === 0) {
+                    return 'Division by zero is undefined.';
+                }
+
+                result = left / right;
+                label = 'division';
+            }
+
+            const roundedResult = Number.isInteger(result) ? String(result) : String(Number(result.toFixed(6)));
+            const shortAnswer = `${left} ${operator} ${right} = ${roundedResult}.`;
+
+            if (!isAdvanced) {
+                return shortAnswer;
+            }
+
+            return `${shortAnswer}\n\nSteps:\n- Identify the operation: ${label}.\n- Use the two numbers: ${left} and ${right}.\n- Calculate the result: ${roundedResult}.\n\nConclusion:\nThe answer is ${roundedResult}.`;
+        };
+
+        const fetchWikipediaTopic = async (question) => {
+            if (typeof window.fetch !== 'function') return null;
+
+            const query = question.replace(/[?!]+$/g, '').trim();
+            if (query.length < 2) return null;
+
+            const searchUrl = new URL('https://en.wikipedia.org/w/api.php');
+            searchUrl.searchParams.set('action', 'query');
+            searchUrl.searchParams.set('list', 'search');
+            searchUrl.searchParams.set('srsearch', query);
+            searchUrl.searchParams.set('srlimit', '1');
+            searchUrl.searchParams.set('format', 'json');
+            searchUrl.searchParams.set('origin', '*');
+
+            const searchResponse = await fetch(searchUrl.toString(), { credentials: 'omit' });
+            if (!searchResponse.ok) return null;
+
+            const searchData = await searchResponse.json();
+            const title = searchData &&
+                searchData.query &&
+                searchData.query.search &&
+                searchData.query.search[0] &&
+                searchData.query.search[0].title;
+
+            if (!title) return null;
+
+            const extractUrl = new URL('https://en.wikipedia.org/w/api.php');
+            extractUrl.searchParams.set('action', 'query');
+            extractUrl.searchParams.set('prop', 'extracts');
+            extractUrl.searchParams.set('exintro', '1');
+            extractUrl.searchParams.set('explaintext', '1');
+            extractUrl.searchParams.set('redirects', '1');
+            extractUrl.searchParams.set('titles', title);
+            extractUrl.searchParams.set('format', 'json');
+            extractUrl.searchParams.set('origin', '*');
+
+            const extractResponse = await fetch(extractUrl.toString(), { credentials: 'omit' });
+            if (!extractResponse.ok) return null;
+
+            const extractData = await extractResponse.json();
+            const pages = extractData && extractData.query && extractData.query.pages
+                ? Object.values(extractData.query.pages)
+                : [];
+            const page = pages.find(item => item && item.extract);
+
+            if (!page) return null;
+
+            return {
+                title: page.title || title,
+                extract: page.extract
+            };
+        };
+
+        const buildWikipediaAnswer = (question, topic, isAdvanced) => {
+            const summary = trimToSentences(topic.extract, isAdvanced ? 6 : 2);
+            if (!summary) return null;
+
+            if (!isAdvanced) {
+                return `${topic.title}: ${summary}`;
+            }
+
+            return `Here is a detailed in-page answer for "${question}".\n\nOverview:\n${summary}\n\nRemember :\n- The Ai is currently under development. So it make mistake in answering questions. \n- If the question needs current news, medical, legal, or financial decisions, verify it with a trusted current source.\n\n`;
+        };
+
+        const resolveAiAnswer = async (question, options = {}) => {
+            const isAdvanced = options.advanced === true;
+            const conversationAnswer = getConversationAnswer(question, isAdvanced);
+            if (conversationAnswer) return conversationAnswer;
+
+            const calculationAnswer = getSimpleCalculationAnswer(question, isAdvanced);
+            if (calculationAnswer) return calculationAnswer;
+
+            const bestMatch = getBestKeywordMatch(aiAnswers, question);
+
+            if (bestMatch) {
+                return isAdvanced ? buildAdvancedLocalAnswer(question, bestMatch) : getAiAnswer(question);
+            }
+
+            try {
+                const wikiTopic = await fetchWikipediaTopic(question);
+                const wikiAnswer = wikiTopic ? buildWikipediaAnswer(question, wikiTopic, isAdvanced) : null;
+
+                if (wikiAnswer) {
+                    return wikiAnswer;
+                }
+            } catch (error) {
+                console.error('AI knowledge lookup failed', error);
+            }
+
+            return isAdvanced
+                ? buildAdvancedFallbackAnswer(question)
+                : 'I can answer inside this chat. Try asking about Maharana Pratap, Haldighati, Chetak, Mewar, or type a clear topic name for a general answer.';
+        };
         const resetAiChat = () => {
+            aiRequestToken += 1;
+            setAiFormBusy(false);
+            aiWindow.setAttribute('aria-busy', 'false');
             aiWindow.innerHTML = '';
-            addAiMessage('Pratap AI', 'Ask me about Maharana Pratap', 'bot');
+            addAiMessage('Pratap AI', 'Ask me anything about Maharana Pratap or another clear topic.', 'bot');
             aiInput.value = '';
         };
 
-        const askAi = (question) => {
+        const askAi = async (question) => {
             const cleanQuestion = (question || '').toString().trim();
             if (!cleanQuestion) return;
 
@@ -486,9 +862,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
             addAiMessage('You', cleanQuestion, 'user');
             aiInput.value = '';
-            window.setTimeout(() => {
-                addAiMessage('Pratap AI', getAiAnswer(cleanQuestion), 'bot', { scrollTo: true });
-            }, 250);
+            const requestToken = aiRequestToken + 1;
+            aiRequestToken = requestToken;
+            const isAdvanced = advancedModeEnabled;
+            const loadingMessage = addAiLoadingMessage(isAdvanced ? 'Building full answer' : 'Thinking');
+            setAiFormBusy(true);
+
+            try {
+                const minimumDelay = isAdvanced ? 650 : 350;
+                const answer = await Promise.all([
+                    resolveAiAnswer(cleanQuestion, { advanced: isAdvanced }),
+                    wait(minimumDelay)
+                ]).then(results => results[0]);
+
+                if (requestToken !== aiRequestToken) {
+                    removeAiLoadingMessage(loadingMessage);
+                    return;
+                }
+
+                removeAiLoadingMessage(loadingMessage);
+                addAiMessage('Pratap AI', answer, 'bot', { scrollTo: true });
+            } catch (error) {
+                console.error('AI answer failed', error);
+
+                if (requestToken === aiRequestToken) {
+                    removeAiLoadingMessage(loadingMessage);
+                    addAiMessage('Pratap AI', 'Sorry, I could not prepare that answer right now. Please try again with a simpler question.', 'bot', { scrollTo: true });
+                }
+            } finally {
+                if (requestToken === aiRequestToken) {
+                    setAiFormBusy(false);
+                }
+            }
         };
 
 
@@ -608,33 +1013,26 @@ document.addEventListener('DOMContentLoaded', function() {
             addAiMessage('Pratap AI', text, 'bot', { scrollTo: true });
         };
 
-        const buildGoogleSearchUrl = (query) => {
-            const url = new URL('https://www.google.com/search');
-            url.searchParams.set('q', query);
-            return url.toString();
-        };
+        const updateAdvancedModeUi = () => {
+            aiForm.classList.toggle('is-advanced', advancedModeEnabled);
 
-        const redirectToGoogleSearch = (query) => {
-            const cleanQuery = query.trim();
-            if (!cleanQuery) return;
-            window.location.href = buildGoogleSearchUrl(cleanQuery);
-        };
-
-        const safeRedirectToGoogleSearch = (query) => {
-            const clean = (query || '').trim();
-            if (!clean) return;
-
-            if (isBlockedQuery(clean)) {
-                addAiWarning('Sorry, this site only supports educational/history questions.Please don\'t use these kind of slangs or explicit terms here.');
-                return;
+            if (aiAdvancedModeButton) {
+                aiAdvancedModeButton.classList.toggle('is-active', advancedModeEnabled);
+                aiAdvancedModeButton.setAttribute('aria-pressed', String(advancedModeEnabled));
+                aiAdvancedModeButton.title = advancedModeEnabled ? 'Advanced mode on' : 'Advanced mode';
+                aiAdvancedModeButton.setAttribute('aria-label', advancedModeEnabled ? 'Turn off advanced mode' : 'Turn on advanced mode');
             }
 
-            redirectToGoogleSearch(clean);
+            aiInput.placeholder = advancedModeEnabled ? 'Ask for a full answer' : 'Ask Anything';
+
+            if (aiSubmitButton) {
+                aiSubmitButton.textContent = advancedModeEnabled ? 'Ask Advanced' : 'Ask AI';
+            }
         };
 
         aiForm.addEventListener('submit', event => {
             event.preventDefault();
-            safeRedirectToGoogleSearch(aiInput.value);
+            askAi(aiInput.value);
         });
 
 
@@ -646,6 +1044,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (aiNewChatButton) {
             aiNewChatButton.addEventListener('click', resetAiChat);
+        }
+
+        if (aiAdvancedModeButton) {
+            aiAdvancedModeButton.addEventListener('click', event => {
+                event.preventDefault();
+                advancedModeEnabled = !advancedModeEnabled;
+                safeStorageSet('pratapAiAdvancedMode', String(advancedModeEnabled));
+                updateAdvancedModeUi();
+            });
         }
 
         // Voice search functionality
@@ -718,6 +1125,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+        updateAdvancedModeUi();
         resetAiChat();
     }
 
