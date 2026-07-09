@@ -266,10 +266,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-
-
-
-    
     function searchWikipedia(query) {
         if (!wikiResultsContainer) return;
         
@@ -742,7 +738,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return 'As of June 2026, Elon Musk officially became the world\'s first-ever trillionaire on paper following the block-buster initial public offering (IPO) of his aerospace firm, SpaceX. His current real-time net worth fluctuates around $916 billion to $932 billion, primarily anchored by his massive equity holdings in both SpaceX and Tesla.';
 
             }
-            
+
             return null;
         };
 
@@ -883,7 +879,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setAiFormBusy(false);
             aiWindow.setAttribute('aria-busy', 'false');
             aiWindow.innerHTML = '';
-            addAiMessage('Pratap AI', 'Ask me anything about Maharana Pratap or another clear topic.', 'bot');
+            addAiMessage('Pratap AI', 'Ask me anything... ', 'bot');
             aiInput.value = '';
         };
 
@@ -1060,7 +1056,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 aiAdvancedModeButton.setAttribute('aria-label', advancedModeEnabled ? 'Turn off advanced mode' : 'Turn on advanced mode');
             }
 
-            aiInput.placeholder = advancedModeEnabled ? 'Search Deeply... ' : 'Ask Anything..';
+            aiInput.placeholder = advancedModeEnabled ? 'Search Deeply... ' : 'Type Anything..';
 
             if (aiSubmitButton) {
                 aiSubmitButton.textContent = advancedModeEnabled ? 'Advanced Search' : 'Ask AI';
