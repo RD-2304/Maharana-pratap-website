@@ -706,6 +706,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 return 'You are welcome. Jai Maharana Pratap.';
             }
 
+             if(/\b(how are you|how r u|how r u doing|how r u doing|how r u feeling)\b/.test(normalized)){
+                return 'I am an AI assistant, so I do not have feelings, but I am here to help you with your questions about Maharana Pratap and related history topics.';
+            }
+
+            if(/\b(can you help me|can u help me|can u help|can you help)\b/.test(normalized)){
+                return 'Yes, I can help you. Please ask your question about Maharana Pratap, Haldighati, Chetak, Mewar, or related history topics.';
+            }
+
+            if(/\b(elon musk|elon musk|tesla|spacex)\b/.test(isAdvanced)){
+                return 'Elon Musk is a South African-born American industrialist, engineer, and the wealthiest person in the world, widely recognized for pioneering private space exploration and mass-market electric vehicles. In June 2026, Musk officially became the worlds first-ever trillionaire on paper following the block-buster initial public offering (IPO) of his aerospace firm, SpaceX. His current real-time net worth fluctuates around $916 billion to $932 billion, primarily anchored by his massive equity holdings in both SpaceX and Tesla.';
+            }
+
+            if(/\b(city classic gym kurali|city classic gym|city classic gym kurali punjab)\b/.test(normalized)){
+                return 'City Classic Gym Kurali is a fitness center located in Kurali, Punjab, India. It offers a range of gym equipment, personal training, and fitness classes to help members achieve their health and wellness goals.';
+            
+            }
+            
+            if(/\b(kurali punjab|kurali|kurali city)\b/.test(normalized)){
+                return 'Kurali is a town in the Mohali district of Punjab, India. It is known for its local markets, educational institutions, and proximity to Chandigarh. The town has a mix of residential and commercial areas and serves as a hub for nearby villages.';
+            }
+
+            if(/\b(chandigarh|chandigarh city|chandigarh punjab)\b/.test(normalized)){
+                return 'Chandigarh is a union territory and the capital of the Indian states of Punjab and Haryana. It is known for its well-planned layout, modern infrastructure, and cultural significance.';
+            }
+
+            if(/\b(udaipur|udaipur city|udaipur rajasthan)\b/.test(normalized)){
+                return 'Udaipur is a city in the Indian state of Rajasthan, known for its rich history, palaces, lakes, and cultural heritage. It is often referred to as the "City of Lakes" and is a popular tourist destination.';
+            }
+            if(/\b(ratan tata|ratan sir|great ratan tata)\b/.test(isAdvanced)){
+                return 'Ratan Naval Tata was an iconic Indian industrialist, philanthropist, and former Chairman of the Tata Group, who passed away at the age of 86 on 9 October 2024 in Mumbai. Renowned for his humility and high ethical standards, he transformed a primarily domestic business into a massive global conglomerate while championing extensive charitable causes.';
+            }
+
+            if(/\b(who is trillionaire|who is the richest person in the world|who is the wealthiest person in the world)\b/.test(isAdvanced)){
+                return 'As of June 2026, Elon Musk officially became the world\'s first-ever trillionaire on paper following the block-buster initial public offering (IPO) of his aerospace firm, SpaceX. His current real-time net worth fluctuates around $916 billion to $932 billion, primarily anchored by his massive equity holdings in both SpaceX and Tesla.';
+
+            }
+            
             return null;
         };
 
