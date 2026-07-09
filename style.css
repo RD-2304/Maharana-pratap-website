@@ -1196,72 +1196,128 @@ li {
 }
 
 .developer-section {
-    background-color: #1a1a1a;
-    color: #ffffff;
-    text-align: center;
-    padding: 1.25rem 0 0;
-    margin: 1.25rem auto 0;
-    max-width: 680px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 1.5rem auto 0;
+    max-width: 760px;
+    padding: 0 1rem;
 }
 
-.footer-divider {
-    border: 0;
-    border-top: 1px solid #333;
-    width: min(50%, 320px);
-    margin: 0 auto 1rem;
+.developer-card {
+    display: grid;
+    grid-template-columns: minmax(120px, 170px) 1fr;
+    gap: 1.2rem;
+    align-items: center;
+    padding: 1.25rem;
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(248, 240, 224, 0.95));
+    border: 1px solid rgba(139, 0, 0, 0.12);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(10px);
+}
+
+body[data-theme="dark"] .developer-card {
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(31, 41, 55, 0.95));
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.developer-visual {
+    display: grid;
+    justify-items: center;
+    gap: 0.75rem;
+}
+
+.dev-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(139, 0, 0, 0.08);
+    color: #8B0000;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+body[data-theme="dark"] .dev-badge {
+    background: rgba(251, 191, 36, 0.16);
+    color: #fbbf24;
 }
 
 .dev-image {
     display: block;
-    width: clamp(120px, 18vw, 160px);
-    height: clamp(120px, 18vw, 160px);
+    width: clamp(110px, 16vw, 150px);
+    height: clamp(110px, 16vw, 150px);
     object-fit: contain;
-    margin: 0 auto 0.85rem;
     padding: 6px;
-    background-color: #080808;
-    border: 1px solid rgba(218, 165, 32, 0.42);
-    border-radius: 14px;
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+    background: linear-gradient(135deg, #fff8e8, #f1e0b3);
+    border: 1px solid rgba(139, 0, 0, 0.16);
+    border-radius: 18px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+}
+
+.developer-content {
+    text-align: left;
+}
+
+.dev-role {
+    margin: 0 0 0.3rem;
+    color: var(--muted-text);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
 
 .dev-name {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 44px;
-    padding: 0.35rem 0.65rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin: 0 0 8px;
-    letter-spacing: 0.5px;
-    color: #f3c45c;
+    padding: 0.2rem 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 0.45rem;
+    letter-spacing: 0.03em;
+    color: #8B0000;
     cursor: pointer;
     user-select: none;
     touch-action: manipulation;
-    -webkit-tap-highlight-color: rgba(243, 196, 92, 0.28);
+    -webkit-tap-highlight-color: rgba(139, 0, 0, 0.16);
     transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.dev-name::after {
+    content: '▾';
+    margin-left: 0.45rem;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease;
+}
+
+.developer-section.is-open .dev-name::after {
+    transform: rotate(180deg);
 }
 
 .dev-name:hover,
 .dev-name:focus-visible {
-    color: #ffd978;
+    color: #b10000;
     transform: translateY(-1px);
 }
 
 .dev-name:focus-visible {
-    outline: 2px solid rgba(243, 196, 92, 0.7);
-    outline-offset: 5px;
+    outline: 2px solid rgba(139, 0, 0, 0.45);
+    outline-offset: 4px;
     border-radius: 6px;
 }
 
 .dev-bio {
     display: none;
-    font-size: 0.9rem;
-    color: #b3b3b3;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.5;
+    font-size: 0.95rem;
+    color: var(--muted-text);
+    max-width: 620px;
+    margin: 0 0 0.8rem;
+    line-height: 1.6;
 }
 
 .developer-section.is-open .dev-bio {
@@ -1270,6 +1326,36 @@ li {
 
 .dev-bio[hidden] {
     display: none;
+}
+
+.dev-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dev-highlights li {
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(139, 0, 0, 0.08);
+    color: #6b1d1d;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+body[data-theme="dark"] .dev-highlights li {
+    background: rgba(251, 191, 36, 0.16);
+    color: #fbbf24;
+}
+
+.footer-note {
+    text-align: center;
+    margin: 0 0 1rem;
+    color: var(--muted-text);
+    font-size: 0.95rem;
 }
 #backToTop {
     display: none; /* Hidden by default */

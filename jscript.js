@@ -696,7 +696,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const getConversationAnswer = (question, isAdvanced) => {
             const normalized = normalizeUserQuery(question);
 
-            if (/^(hi|hello|hey|namaste|jai|jai hind|jai maharana)/.test(normalized)) {
+            if (/^(hi|hello|hey|namaste|hlo|jai|jai hind|jai maharana)/.test(normalized)) {
                 return isAdvanced
                     ? 'Namaste. I am ready to answer in Advanced Mode with a detailed response.\n\nYou can ask about Maharana Pratap, Haldighati, Chetak, Mewar, Rajput history, or another clear topic.'
                     : 'Namaste. Ask me anything about Maharana Pratap or a history topic.';
@@ -1023,10 +1023,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 aiAdvancedModeButton.setAttribute('aria-label', advancedModeEnabled ? 'Turn off advanced mode' : 'Turn on advanced mode');
             }
 
-            aiInput.placeholder = advancedModeEnabled ? 'Ask for a full answer' : 'Ask Anything';
+            aiInput.placeholder = advancedModeEnabled ? 'Search Deeply... ' : 'Ask Anything..';
 
             if (aiSubmitButton) {
-                aiSubmitButton.textContent = advancedModeEnabled ? 'Ask Advanced' : 'Ask AI';
+                aiSubmitButton.textContent = advancedModeEnabled ? 'Advanced Search' : 'Ask AI';
             }
         };
 

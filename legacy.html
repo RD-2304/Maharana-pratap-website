@@ -70,20 +70,32 @@
         </section>
     </main>
     <footer>
-        <p>&copy;2026 Maharana Pratap Website. All rights reserved.</p>
+        <p class="footer-note">&copy; 2026 Maharana Pratap Website. All rights reserved.</p>
         <div class="developer-section" aria-label="Developer information">
-            <hr class="footer-divider">
-            <img
-                id="devImage"
-                src="rana-developer.png"
-                alt="Rana Developer logo"
-                class="dev-image"
-                width="160"
-                height="160"
-                loading="lazy"
-            >
-            <h3 class="dev-name dev-toggle" role="button" tabindex="0" aria-controls="developerBio" aria-expanded="false">Rana Developer</h3>
-            <p id="developerBio" class="dev-bio" hidden>Passionate Web Developer focused on crafting immersive, user-friendly online experiences. Proficient in HTML, CSS, JavaScript.</p>
+            <div class="developer-card">
+                <div class="developer-visual">
+                    <img
+                        id="devImage"
+                        src="rana-developer.png"
+                        alt="Rana Developer portrait"
+                        class="dev-image"
+                        width="160"
+                        height="160"
+                        loading="lazy"
+                    >
+                    <span class="dev-badge">Core Developer</span>
+                </div>
+                <div class="developer-content">
+                    <p class="dev-role">Frontend Developer &amp; Storyteller</p>
+                    <h3 class="dev-name dev-toggle" role="button" tabindex="0" aria-controls="developerBio" aria-expanded="false">Rana Developer</h3>
+                    <p id="developerBio" class="dev-bio" hidden>Passionate about crafting elegant, user-first web experiences that bring history, culture, and storytelling to life with modern design.</p>
+                    <ul class="dev-highlights">
+                        <li>Responsive design</li>
+                        <li>Modern UI systems</li>
+                        <li>Accessible interactions</li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <button id="backToTop" type="button" aria-label="Back to top">Back to Top</button>
     </footer>
