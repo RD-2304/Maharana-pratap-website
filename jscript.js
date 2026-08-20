@@ -229,6 +229,24 @@ document.addEventListener('DOMContentLoaded', function() {
         wikiResultsContainer.replaceChildren(status);
         wikiResultsContainer.classList.remove('hidden');
     };
+
+    const blockedWikiWords = [
+        'sex', 'sexual', 'porn', 'xxx', 'nude', 'naked', 'erotic', 'nsfw','sextape','sex tape',
+        'fuck', 'shit', 'bitch', 'asshole', 'dick', 'cock', 'pussy',
+        'blowjob', 'cum', 'slut', 'whore', 'rape', 'incest', 'fetish',
+        'shemale', 'dong', 'horny', 'anal', 'masturbation', 'vagina',
+        'penis', 'intercourse', 'pornography', 'sex toy', 'oral sex', 'oral','porn','bluesexfimls','pornography','pornhub','sex video','sex tape','sex scandal','pronography','prono','porono','pornographic','pornstar','pornstars','pornography','pornographic','pornography','porno','sextape(song)', 'sextape(disambiguation)','sexually explicit','sexually transmitted disease','sexually transmitted infection','sexually transmitted infections','sexually transmitted diseases','sexually transmitted infections','sexually transmitted diseases','sexually transmitted infections','sexually transmitted diseases','sexually transmitted infections','sexually transmitted diseases','sexually transmitted infections','sexually transmitted diseases','sexually transmitted infections','sexually transmitted diseases','sexually transmitted infections','sexually transmitted diseases','sexually transmitted infections',
+    ];
+
+    const containsBlockedWikiSearch = (text) => {
+        const cleaned = String(text || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ');
+        return blockedWikiWords.some(word => {
+            const safeWord = String(word).trim().toLowerCase();
+            if (!safeWord) return false;
+            const pattern = new RegExp(`\\b${safeWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+            return pattern.test(cleaned);
+        });
+    };
     
     if (wikiSearchForm && wikiSearchInput && wikiResultsContainer) {
         let searchTimeout;
@@ -239,6 +257,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const query = e.target.value.trim();
             
             if (query.length > 2) {
+                if (containsBlockedWikiSearch(query)) {
+                    showWikipediaStatus('wiki-error', 'This search contains blocked sexual or offensive language. Please try a different query.');
+                    return;
+                }
+
                 showWikipediaStatus('wiki-loading', 'Searching Wikipedia...');
                 
                 searchTimeout = setTimeout(() => {
@@ -253,9 +276,16 @@ document.addEventListener('DOMContentLoaded', function() {
         wikiSearchForm.addEventListener('submit', function(event) {
             event.preventDefault();
             const query = wikiSearchInput.value.trim();
-            if (query.length > 0) {
-                searchWikipedia(query);
+            if (query.length === 0) {
+                return;
             }
+
+            if (containsBlockedWikiSearch(query)) {
+                showWikipediaStatus('wiki-error', 'This search contains blocked sexual or offensive language. Please try a different query.');
+                return;
+            }
+
+            searchWikipedia(query);
         });
         
         // Close results when clicking outside
