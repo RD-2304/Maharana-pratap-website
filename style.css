@@ -361,6 +361,7 @@ nav ul li a:hover {
     }
 
     nav {
+
         align-items: flex-start;
     }
 
@@ -2803,4 +2804,148 @@ body[data-theme="dark"] .ai-loading-dots span {
 
 body[data-theme="dark"] .section-kicker {
     color: #fbbf24;
+}
+
+/* Responsive footer and developer information */
+@media (max-width: 960px) {
+    .site-footer__inner {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.75rem 2rem;
+        padding: 2.5rem 1.5rem 1.35rem;
+    }
+
+    .site-footer__brand {
+        grid-column: 1 / -1;
+    }
+
+    .site-footer__divider,
+    .site-footer__bottom {
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .site-footer {
+        margin-top: 2rem;
+    }
+
+    .site-footer__inner {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 2rem 1rem 1.25rem;
+    }
+
+    .site-footer__brand {
+        grid-column: auto;
+    }
+
+    .site-footer__brand h3 {
+        font-size: 1.45rem;
+    }
+
+    .site-footer__brand p,
+    .site-footer__links a,
+    .site-footer__meta p {
+        font-size: 0.9rem;
+    }
+
+    .site-footer__links ul {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem 1rem;
+    }
+
+    .site-footer__divider {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+
+    .site-footer__bottom {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        padding: 1.25rem 0 2rem;
+        gap: 1rem;
+    }
+
+    .footer-developer {
+        width: 100%;
+        margin-bottom: 0.25rem;
+        border-radius: 14px;
+        padding: 0.75rem 0.85rem;
+        gap: 0.35rem 0.55rem;
+        text-align: center;
+    }
+
+    .footer-developer__label,
+    .footer-developer__name {
+        overflow-wrap: anywhere;
+    }
+
+    .footer-developer__label {
+        font-size: 0.66rem;
+    }
+
+    .footer-developer__name {
+        font-size: 0.9rem;
+    }
+
+    .footer-note {
+        font-size: 0.78rem;
+        line-height: 1.5;
+        padding: 0 3.25rem;
+    }
+
+    .developer-section {
+        padding: 0 0.75rem;
+    }
+
+    .developer-card {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+        border-radius: 18px;
+        text-align: center;
+    }
+
+    .developer-content {
+        text-align: center;
+    }
+
+    .developer-visual {
+        gap: 0.6rem;
+    }
+
+    .dev-image {
+        width: min(42vw, 132px);
+        height: min(42vw, 132px);
+    }
+
+    .dev-name {
+        justify-content: center;
+        width: 100%;
+        font-size: 1.05rem;
+    }
+
+    .dev-bio {
+        font-size: 0.88rem;
+        line-height: 1.55;
+    }
+
+    .dev-highlights {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 380px) {
+    .site-footer__links ul {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-developer {
+        flex-direction: column;
+    }
+
+    .footer-developer__label {
+        letter-spacing: 0.08em;
+    }
 }
