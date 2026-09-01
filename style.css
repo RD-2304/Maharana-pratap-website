@@ -557,6 +557,68 @@ main {
     padding: 2.5rem 1.5rem;
 }
 
+.latest-update {
+    position: relative;
+    width: 190px;
+    margin-top: 0.85rem;
+    padding: 0.9rem 1rem 1rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06));
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+}
+
+.latest-update::before {
+    display: block;
+    width: 34px;
+    height: 3px;
+    margin-bottom: 0.75rem;
+    border-radius: 3px;
+    background: #ffd166;
+    content: '';
+}
+
+nav > .latest-update {
+    order: -1;
+}
+
+.latest-update__label {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.2rem;
+    color: #ffd166;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.latest-update__label::before {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #72d572;
+    box-shadow: 0 0 0 3px rgba(114, 213, 114, 0.16);
+    content: '';
+}
+
+.latest-update__date {
+    display: block;
+    margin-bottom: 0.55rem;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+}
+
+.latest-update p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
 #hero {
     border-radius: 32px;
     overflow: hidden;
@@ -2054,6 +2116,11 @@ nav ul li a {
 
     main {
         padding: 1rem 0.75rem;
+    }
+
+    .latest-update {
+        width: auto;
+        margin: 0.75rem 0 0;
     }
 
     section,
