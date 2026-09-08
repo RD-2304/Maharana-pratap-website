@@ -250,10 +250,54 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (wikiSearchForm && wikiSearchInput && wikiResultsContainer) {
         let searchTimeout;
+        const searchPrompts = [
+            'Search on Wikipedia...',
+            'Try Maharana Pratap...',
+            'Explore Rajput history...'
+        ];
+        let promptIndex = 0;
+        let promptCharacter = 0;
+        let promptDeleting = false;
+        let promptTimer;
+
+        const animateSearchPlaceholder = () => {
+            if (mediaMatches('(prefers-reduced-motion: reduce)') || wikiSearchInput.value) {
+                wikiSearchInput.placeholder = searchPrompts[0];
+                return;
+            }
+
+            const prompt = searchPrompts[promptIndex];
+            wikiSearchInput.placeholder = prompt.slice(0, promptCharacter);
+
+            if (!promptDeleting && promptCharacter < prompt.length) {
+                promptCharacter += 1;
+                promptTimer = setTimeout(animateSearchPlaceholder, 75);
+                return;
+            }
+
+            if (!promptDeleting) {
+                promptDeleting = true;
+                promptTimer = setTimeout(animateSearchPlaceholder, 1400);
+                return;
+            }
+
+            if (promptCharacter > 0) {
+                promptCharacter -= 1;
+                promptTimer = setTimeout(animateSearchPlaceholder, 35);
+                return;
+            }
+
+            promptDeleting = false;
+            promptIndex = (promptIndex + 1) % searchPrompts.length;
+            promptTimer = setTimeout(animateSearchPlaceholder, 250);
+        };
+
+        animateSearchPlaceholder();
         
         // Real-time search as user types
         wikiSearchInput.addEventListener('input', function(e) {
             clearTimeout(searchTimeout);
+            clearTimeout(promptTimer);
             const query = e.target.value.trim();
             
             if (query.length > 2) {
@@ -269,6 +313,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 300);
             } else {
                 wikiResultsContainer.classList.add('hidden');
+                if (query.length === 0) {
+                    promptCharacter = 0;
+                    promptDeleting = false;
+                    animateSearchPlaceholder();
+                }
             }
         });
         
