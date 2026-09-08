@@ -791,10 +791,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return 'Yes, I can help you. Please ask your question about Maharana Pratap, Haldighati, Chetak, Mewar, or related history topics.';
             }
 
-            if(/\b(elon musk|elon musk|tesla|spacex)\b/.test(isAdvanced)){
-                return 'Elon Musk is a South African-born American industrialist, engineer, and the wealthiest person in the world, widely recognized for pioneering private space exploration and mass-market electric vehicles. In June 2026, Musk officially became the worlds first-ever trillionaire on paper following the block-buster initial public offering (IPO) of his aerospace firm, SpaceX. His current real-time net worth fluctuates around $916 billion to $932 billion, primarily anchored by his massive equity holdings in both SpaceX and Tesla.';
-            }
-
             if(/\b(city classic gym kurali|city classic gym|city classic gym kurali punjab)\b/.test(normalized)){
                 return 'City Classic Gym Kurali is a fitness center located in Kurali, Punjab, India. It offers a range of gym equipment, personal training, and fitness classes to help members achieve their health and wellness goals.';
             
@@ -811,15 +807,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if(/\b(udaipur|udaipur city|udaipur rajasthan)\b/.test(normalized)){
                 return 'Udaipur is a city in the Indian state of Rajasthan, known for its rich history, palaces, lakes, and cultural heritage. It is often referred to as the "City of Lakes" and is a popular tourist destination.';
             }
-            if(/\b(ratan tata|ratan sir|great ratan tata)\b/.test(isAdvanced)){
-                return 'Ratan Naval Tata was an iconic Indian industrialist, philanthropist, and former Chairman of the Tata Group, who passed away at the age of 86 on 9 October 2024 in Mumbai. Renowned for his humility and high ethical standards, he transformed a primarily domestic business into a massive global conglomerate while championing extensive charitable causes.';
-            }
-
-            if(/\b(who is trillionaire|who is the richest person in the world|who is the wealthiest person in the world)\b/.test(isAdvanced)){
-                return 'As of June 2026, Elon Musk officially became the world\'s first-ever trillionaire on paper following the block-buster initial public offering (IPO) of his aerospace firm, SpaceX. His current real-time net worth fluctuates around $916 billion to $932 billion, primarily anchored by his massive equity holdings in both SpaceX and Tesla.';
-
-            }
-
             return null;
         };
 
@@ -865,7 +852,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const fetchWikipediaTopic = async (question) => {
             if (typeof window.fetch !== 'function') return null;
 
-            const query = question.replace(/[?!]+$/g, '').trim();
+            const query = question
+                .replace(/[?!]+$/g, '')
+                .replace(/\b(please|can you|could you|would you|tell me|explain|describe|give me|show me|what is|what are|who is|who was|where is|when was|why did|how did|how does|how is)\b/gi, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
             if (query.length < 2) return null;
 
             const searchUrl = new URL('https://en.wikipedia.org/w/api.php');
@@ -926,6 +917,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return `Here is a detailed in-page answer for "${question}".\n\nOverview:\n${summary}\n\nRemember :\n- The Ai is currently under (Beta version). So it make mistake in answering questions. \n- If the question needs current news, medical, legal, or financial decisions, verify it with a trusted current source.\n\n`;
         };
 
+        const isPratapHistoryQuestion = question => {
+            return /\b(maharana|pratap|haldighati|chetak|mewar|akbar|mughal|rajput|bhamashah|bhil|chavand|aravalli|rawat jhala|ajabde)\b/i.test(question);
+        };
+
         const resolveAiAnswer = async (question, options = {}) => {
             const isAdvanced = options.advanced === true;
             const conversationAnswer = getConversationAnswer(question, isAdvanced);
@@ -933,6 +928,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const calculationAnswer = getSimpleCalculationAnswer(question, isAdvanced);
             if (calculationAnswer) return calculationAnswer;
+
+            const bestMatch = getBestKeywordMatch(aiAnswers, question);
+
+            if (bestMatch && isPratapHistoryQuestion(question)) {
+                return isAdvanced ? buildAdvancedLocalAnswer(question, bestMatch) : getAiAnswer(question);
+            }
 
             try {
                 const wikiTopic = await fetchWikipediaTopic(question);
@@ -943,12 +944,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } catch (error) {
                 console.error('AI knowledge lookup failed', error);
-            }
-
-            const bestMatch = getBestKeywordMatch(aiAnswers, question);
-
-            if (bestMatch) {
-                return isAdvanced ? buildAdvancedLocalAnswer(question, bestMatch) : getAiAnswer(question);
             }
 
             return isAdvanced
