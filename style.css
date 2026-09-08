@@ -582,6 +582,44 @@ nav ul li a:focus {
     outline-offset: 2px;
 }
 
+@media (min-width: 961px) {
+    nav {
+        padding-right: 245px;
+        padding-bottom: 90px;
+    }
+
+    nav ul {
+        flex: 1 1 auto;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 0.35rem;
+    }
+
+    nav ul li a {
+        padding: 0.55rem 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .header-controls {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-left: 0;
+    }
+
+    .language-selector {
+        position: static;
+    }
+
+    nav > .latest-update {
+        position: absolute;
+        top: 52px;
+        right: 0;
+        width: 189px;
+        margin: 0;
+    }
+}
+
 main {
     max-width: 1200px;
     margin: 0 auto;
