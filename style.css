@@ -2863,6 +2863,7 @@ nav ul li a {
     padding: 0.55rem 0.7rem;
     margin: 0;
     position: relative;
+    container-type: inline-size;
 }
 
 .ai-disclaimer-icon {
@@ -2875,14 +2876,16 @@ nav ul li a {
 .scroll-text {
     display: block;
     margin: 0;
-    min-width: 0;
+    flex: 0 0 auto;
+    min-width: max-content;
     padding: 0;
     color: #8a5a00;
     font-size: 0.78rem;
     font-weight: 500;
     line-height: 1.3;
-    white-space: normal;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    animation: disclaimer-scroll 18s linear infinite;
 }
 
 .scroll-text strong {
@@ -2892,7 +2895,7 @@ nav ul li a {
 
 @media (max-width: 700px) {
     .ai-assistant-header {
-        gap: 0.45rem;
+        gap: 0.2rem;
     }
 
     .ai-assistant-header > div:first-child {
@@ -2900,20 +2903,12 @@ nav ul li a {
     }
 
     .ai-assistant-header > div:first-child::after {
-        margin-top: 0.35rem;
+        margin-top: 0.2rem;
     }
 
     .ai-disclaimer {
         flex: 0 0 auto;
         overflow: hidden;
-    }
-
-    .ai-disclaimer .scroll-text {
-        flex: 0 0 auto;
-        min-width: max-content;
-        white-space: nowrap;
-        overflow-wrap: normal;
-        animation: disclaimer-scroll 18s linear infinite;
     }
 }
 
@@ -2923,7 +2918,7 @@ nav ul li a {
     }
 
     88%, 100% {
-        transform: translateX(calc(-100% + 260px));
+        transform: translateX(calc(-100% + 100cqw - 2.5rem));
     }
 }
 
