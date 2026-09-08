@@ -312,15 +312,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     const results = document.createDocumentFragment();
 
                     data.query.search.forEach(result => {
-                        const item = document.createElement('a');
+                        const item = document.createElement('button');
                         const title = document.createElement('div');
                         const excerpt = document.createElement('div');
 
                         item.className = 'wiki-result-item';
-                        item.href = `https://en.wikipedia.org/wiki/${encodeURIComponent(result.title)}`;
-                        item.target = '_blank';
-                        item.rel = 'noopener noreferrer';
-                        item.referrerPolicy = 'no-referrer';
+                        item.type = 'button';
+                        item.setAttribute('aria-label', `Read Wikipedia summary for ${result.title}`);
 
                         title.className = 'wiki-result-title';
                         title.textContent = result.title;
@@ -330,6 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         item.appendChild(title);
                         item.appendChild(excerpt);
+                        item.addEventListener('click', () => showWikipediaArticle(result.title));
                         results.appendChild(item);
                     });
 
@@ -340,6 +339,58 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(() => {
                 showWikipediaStatus('wiki-error', 'Error fetching results. Please try again.');
+            });
+    }
+
+    function showWikipediaArticle(title) {
+        if (!wikiResultsContainer) return;
+
+        showWikipediaStatus('wiki-loading', 'Loading Wikipedia summary...');
+
+        const articleUrl = new URL('https://en.wikipedia.org/w/api.php');
+        articleUrl.searchParams.set('action', 'query');
+        articleUrl.searchParams.set('prop', 'extracts');
+        articleUrl.searchParams.set('exintro', '1');
+        articleUrl.searchParams.set('explaintext', '1');
+        articleUrl.searchParams.set('redirects', '1');
+        articleUrl.searchParams.set('titles', title);
+        articleUrl.searchParams.set('format', 'json');
+        articleUrl.searchParams.set('origin', '*');
+
+        fetch(articleUrl.toString(), { credentials: 'omit' })
+            .then(response => {
+                if (!response.ok) throw new Error('Wikipedia article request failed.');
+                return response.json();
+            })
+            .then(data => {
+                const pages = data && data.query && data.query.pages
+                    ? Object.values(data.query.pages)
+                    : [];
+                const page = pages.find(item => item && item.extract);
+
+                if (!page) {
+                    showWikipediaStatus('wiki-no-results', 'No article summary found.');
+                    return;
+                }
+
+                const article = document.createElement('article');
+                article.className = 'wiki-article-preview';
+
+                const heading = document.createElement('h3');
+                heading.textContent = page.title || title;
+
+                const summary = document.createElement('p');
+                summary.textContent = page.extract;
+
+                const note = document.createElement('p');
+                note.className = 'wiki-article-source';
+                note.textContent = 'Source: Wikipedia. This summary is shown inside the site.';
+
+                article.append(heading, summary, note);
+                wikiResultsContainer.replaceChildren(article);
+            })
+            .catch(() => {
+                showWikipediaStatus('wiki-error', 'Error loading this Wikipedia article. Please try again.');
             });
     }
 
@@ -883,12 +934,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const calculationAnswer = getSimpleCalculationAnswer(question, isAdvanced);
             if (calculationAnswer) return calculationAnswer;
 
-            const bestMatch = getBestKeywordMatch(aiAnswers, question);
-
-            if (bestMatch) {
-                return isAdvanced ? buildAdvancedLocalAnswer(question, bestMatch) : getAiAnswer(question);
-            }
-
             try {
                 const wikiTopic = await fetchWikipediaTopic(question);
                 const wikiAnswer = wikiTopic ? buildWikipediaAnswer(question, wikiTopic, isAdvanced) : null;
@@ -898,6 +943,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } catch (error) {
                 console.error('AI knowledge lookup failed', error);
+            }
+
+            const bestMatch = getBestKeywordMatch(aiAnswers, question);
+
+            if (bestMatch) {
+                return isAdvanced ? buildAdvancedLocalAnswer(question, bestMatch) : getAiAnswer(question);
             }
 
             return isAdvanced
@@ -1533,3 +1584,53 @@ function showStateInfo(stateName) {
         tab.setAttribute("aria-selected", isActive ? "true" : "false");
     });
 }
+
+function initVisitorPresence() {
+    const visitorList = document.getElementById('visitor-list');
+    const visitorCount = document.getElementById('visitor-count');
+
+    if (!visitorList || !visitorCount) return;
+
+    const visitorsKey = 'maharanaVisitorPresence';
+    const visitorIdKey = 'maharanaVisitorId';
+    const activeWindow = 3 * 60 * 1000;
+    const heartbeatInterval = 30 * 1000;
+    const visitorId = safeStorageGet(visitorIdKey, 'sessionStorage') || `visitor-${Math.random().toString(36).slice(2, 8)}`;
+    safeStorageSet(visitorIdKey, visitorId, 'sessionStorage');
+
+    const readVisitors = () => {
+        try {
+            const visitors = JSON.parse(safeStorageGet(visitorsKey) || '[]');
+            return Array.isArray(visitors) ? visitors : [];
+        } catch (error) {
+            return [];
+        }
+    };
+
+    const writeVisitors = (visitors) => safeStorageSet(visitorsKey, JSON.stringify(visitors));
+
+    const renderVisitors = () => {
+        const cutoff = Date.now() - activeWindow;
+        const visitors = readVisitors().filter(visitor => visitor.lastSeen > cutoff);
+        const currentVisitor = visitors.find(visitor => visitor.id === visitorId);
+        if (!currentVisitor) {
+            visitors.push({ id: visitorId, lastSeen: Date.now() });
+        }
+        writeVisitors(visitors);
+        visitorCount.textContent = String(visitors.length);
+        visitorList.innerHTML = visitors
+            .sort((first, second) => second.lastSeen - first.lastSeen)
+            .map(visitor => {
+                const isCurrent = visitor.id === visitorId;
+                const label = isCurrent ? 'You, browsing now' : `Visitor ${visitor.id.slice(-4).toUpperCase()}`;
+                const initial = isCurrent ? 'Y' : 'V';
+                return `<div class="visitor-list__item"><span class="visitor-list__avatar" aria-hidden="true">${initial}</span><span><strong class="visitor-list__name">${label}</strong><span class="visitor-list__time">Active just now</span></span></div>`;
+            }).join('');
+    };
+
+    renderVisitors();
+    window.setInterval(renderVisitors, heartbeatInterval);
+    window.addEventListener('storage', renderVisitors);
+}
+
+document.addEventListener('DOMContentLoaded', initVisitorPresence);

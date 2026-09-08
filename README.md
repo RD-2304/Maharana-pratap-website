@@ -11,6 +11,7 @@ This is a comprehensive website dedicated to Maharana Pratap, the legendary Rajp
 - **Legacy**: Cultural impact, patronage of arts, and national hero status
 - **Gallery**: Images including portraits, statues, and depictions
 - **Contact**: Contact form for inquiries
+- **About**: Tribute context and a live anonymous visitor presence panel
 
 ## Features
 
@@ -20,6 +21,7 @@ This is a comprehensive website dedicated to Maharana Pratap, the legendary Rajp
 - Comprehensive historical content
 - Mobile-friendly layout
 - Browser privacy controls and safer contact email composition
+- Anonymous live presence for visitors using the same browser origin
 
 ## Technologies Used
 
@@ -32,6 +34,8 @@ This is a comprehensive website dedicated to Maharana Pratap, the legendary Rajp
 Open `index.html` in a web browser.
 
 For publishing and privacy guidance, see [SECURITY.md](SECURITY.md).
+
+The visitor presence panel is intentionally client-side for this static site. It stores anonymous session IDs in browser storage, expires inactive entries after three minutes, and does not collect names, emails, or IP addresses. A shared cross-device visitor list would require a deployed backend or hosted realtime service.
 
 ## Sources
 

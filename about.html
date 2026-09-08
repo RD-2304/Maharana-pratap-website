@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' https://en.wikipedia.org; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+    <meta name="referrer" content="no-referrer">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="description" content="About the Maharana Pratap digital tribute and its live visitor presence.">
+    <title>About This Tribute - Maharana Pratap</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="about-page">
+    <header>
+        <nav>
+            <aside class="latest-update" aria-label="Latest update">
+                <span class="latest-update__label">Last Updated</span>
+                <p>07 September 2026</p>
+            </aside>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="biography.html">Biography</a></li>
+                <li><a href="timeline.html">Timeline</a></li>
+                <li><a href="battles.html">Battles</a></li>
+                <li><a href="legacy.html">Legacy</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="about.html" aria-current="page">About</a></li>
+            </ul>
+            <div class="header-controls">
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+                    <span class="theme-toggle-icon" aria-hidden="true">☀️</span>
+                    <span class="theme-toggle-label">Theme</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="about-main">
+        <section class="about-hero" aria-labelledby="about-title">
+            <div class="about-hero__copy">
+                <span class="section-kicker">About the tribute</span>
+                <h1 id="about-title">A living space for a lasting legacy.</h1>
+                <p>This independent digital tribute gathers the story, battles, values, and cultural memory of Maharana Pratap in one place. It is built for curious readers, students, and anyone who finds courage in a life lived with conviction.</p>
+                <div class="about-hero__facts" aria-label="Tribute highlights">
+                    <span><strong>7</strong> historical sections</span>
+                    <span><strong>1</strong> shared archive</span>
+                    <span><strong>0</strong> personal details collected</span>
+                </div>
+            </div>
+            <div class="about-hero__mark">
+                <img class="about-hero__portrait" src="hero-front-image.webp" alt="Illustrated portrait of Maharana Pratap">
+                <span class="about-hero__mark-caption">Mewar / Memory / Meaning</span>
+            </div>
+        </section>
+
+        <section class="visitor-panel" aria-labelledby="visitor-title">
+            <div class="visitor-panel__intro">
+                <div>
+                    <span class="section-kicker">Live presence</span>
+                    <h2 id="visitor-title">Visitors with us right now</h2>
+                    <p>A quiet pulse from people exploring this tribute at the same time. Visitors are shown with anonymous session labels and disappear after a few minutes of inactivity.</p>
+                </div>
+                <div class="visitor-total" aria-live="polite">
+                    <span class="visitor-total__dot" aria-hidden="true"></span>
+                    <strong id="visitor-count">1</strong>
+                    <span>active now</span>
+                </div>
+            </div>
+            <div id="visitor-list" class="visitor-list" aria-live="polite" aria-label="Active visitor list">
+                <p class="visitor-list__empty">Connecting to the live presence...</p>
+            </div>
+            <p class="visitor-panel__note">Privacy first: this static site keeps anonymous presence data in your browser only. No names, emails, or IP addresses are recorded.</p>
+        </section>
+
+        <section class="about-grid" aria-label="About this website">
+            <article class="about-card">
+                <span class="about-card__number">01</span>
+                <h2>Why it exists</h2>
+                <p>History becomes more memorable when it is easy to revisit. This archive brings together concise pages, visual references, and a clear timeline for learning at your own pace.</p>
+            </article>
+            <article class="about-card">
+                <span class="about-card__number">02</span>
+                <h2>What guides it</h2>
+                <p>The tribute centres dignity, resistance, loyalty, and responsibility while keeping the experience approachable for modern readers across devices.</p>
+            </article>
+            <article class="about-card">
+                <span class="about-card__number">03</span>
+                <h2>Keep exploring</h2>
+                <p>Begin with the <a href="biography.html">biography</a>, trace the <a href="timeline.html">timeline</a>, or visit the <a href="gallery.html">gallery</a> to see the story from another angle.</p>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="site-footer__inner">
+            <div class="site-footer__brand">
+                <p class="site-footer__eyebrow">Maharana Pratap</p>
+                <h3>Legacy of Courage</h3>
+                <p>Celebrating the warrior king whose unwavering resolve and honour continue to inspire generations.</p>
+            </div>
+            <div class="site-footer__links">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="biography.html">Biography</a></li>
+                    <li><a href="battles.html">Battles</a></li>
+                    <li><a href="timeline.html">Timeline</a></li>
+                </ul>
+            </div>
+            <div class="site-footer__links">
+                <h4>More</h4>
+                <ul>
+                    <li><a href="legacy.html">Legacy</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="about.html" aria-current="page">About</a></li>
+                </ul>
+            </div>
+            <div class="site-footer__meta">
+                <h4>About This Tribute</h4>
+                <p>A curated digital memorial honouring the bravery, dignity, and resistance of Maharana Pratap.</p>
+            </div>
+        </div>
+        <div class="site-footer__divider" aria-hidden="true"></div>
+        <div class="site-footer__bottom">
+            <div class="footer-developer" aria-label="Developer information">
+                <span class="footer-developer__label">Developed by :</span>
+                <strong class="footer-developer__name">Rana Developer</strong>
+            </div>
+            <p class="footer-note">&copy; 2026 Maharana Pratap Website. All rights reserved.</p>
+        </div>
+        <button id="backToTop" type="button" aria-label="Back to top">Back to Top</button>
+    </footer>
+    <script src="jscript.js"></script>
+</body>
+</html>
