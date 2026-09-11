@@ -21,7 +21,7 @@ This is a comprehensive website dedicated to Maharana Pratap, the legendary Rajp
 - Comprehensive historical content
 - Mobile-friendly layout
 - Browser privacy controls and safer contact email composition
-- Anonymous live presence for visitors using the same browser origin
+- Anonymous live presence for visitors using the same browser origin, including pages visited outside About
 
 ## Technologies Used
 
@@ -35,7 +35,7 @@ Open `index.html` in a web browser.
 
 For publishing and privacy guidance, see [SECURITY.md](SECURITY.md).
 
-The visitor presence panel is intentionally client-side for this static site. It stores anonymous session IDs in browser storage, expires inactive entries after three minutes, and does not collect names, emails, or IP addresses. A shared cross-device visitor list would require a deployed backend or hosted realtime service.
+The visitor presence panel is intentionally client-side for this static site. It tracks anonymous sessions across this site's open pages in the same browser origin, expires inactive entries after three minutes, and does not collect names, emails, or IP addresses. A shared cross-device visitor list would require a deployed backend or hosted realtime service.
 
 ## Sources
 

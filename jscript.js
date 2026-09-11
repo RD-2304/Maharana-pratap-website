@@ -1633,8 +1633,6 @@ function initVisitorPresence() {
     const visitorList = document.getElementById('visitor-list');
     const visitorCount = document.getElementById('visitor-count');
 
-    if (!visitorList || !visitorCount) return;
-
     const visitorsKey = 'maharanaVisitorPresence';
     const visitorIdKey = 'maharanaVisitorId';
     const activeWindow = 3 * 60 * 1000;
@@ -1661,6 +1659,9 @@ function initVisitorPresence() {
             visitors.push({ id: visitorId, lastSeen: Date.now() });
         }
         writeVisitors(visitors);
+
+        if (!visitorList || !visitorCount) return;
+
         visitorCount.textContent = String(visitors.length);
         visitorList.innerHTML = visitors
             .sort((first, second) => second.lastSeen - first.lastSeen)
