@@ -1653,7 +1653,12 @@ function initVisitorPresence() {
 
     const renderVisitors = () => {
         const cutoff = Date.now() - activeWindow;
-        const visitors = readVisitors().filter(visitor => visitor.lastSeen > cutoff);
+        const visitors = readVisitors()
+            .filter(visitor => visitor && typeof visitor.id === 'string'
+                && visitor.id.length <= 64
+                && Number.isFinite(visitor.lastSeen)
+                && visitor.lastSeen > cutoff)
+            .slice(0, 100);
         const currentVisitor = visitors.find(visitor => visitor.id === visitorId);
         if (!currentVisitor) {
             visitors.push({ id: visitorId, lastSeen: Date.now() });
@@ -1663,14 +1668,34 @@ function initVisitorPresence() {
         if (!visitorList || !visitorCount) return;
 
         visitorCount.textContent = String(visitors.length);
-        visitorList.innerHTML = visitors
+        const visitorItems = document.createDocumentFragment();
+
+        visitors
             .sort((first, second) => second.lastSeen - first.lastSeen)
-            .map(visitor => {
+            .forEach(visitor => {
                 const isCurrent = visitor.id === visitorId;
                 const label = isCurrent ? 'You, browsing now' : `Visitor ${visitor.id.slice(-4).toUpperCase()}`;
                 const initial = isCurrent ? 'Y' : 'V';
-                return `<div class="visitor-list__item"><span class="visitor-list__avatar" aria-hidden="true">${initial}</span><span><strong class="visitor-list__name">${label}</strong><span class="visitor-list__time">Active just now</span></span></div>`;
-            }).join('');
+                const item = document.createElement('div');
+                const avatar = document.createElement('span');
+                const text = document.createElement('span');
+                const name = document.createElement('strong');
+                const time = document.createElement('span');
+
+                item.className = 'visitor-list__item';
+                avatar.className = 'visitor-list__avatar';
+                avatar.setAttribute('aria-hidden', 'true');
+                avatar.textContent = initial;
+                name.className = 'visitor-list__name';
+                name.textContent = label;
+                time.className = 'visitor-list__time';
+                time.textContent = 'Active just now';
+                text.append(name, time);
+                item.append(avatar, text);
+                visitorItems.appendChild(item);
+            });
+
+        visitorList.replaceChildren(visitorItems);
     };
 
     renderVisitors();

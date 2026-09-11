@@ -2,7 +2,7 @@
 
 ## Recent Security Improvements (2026)
 
-- **Content Security Policy Hardening**: Removed external domain references (`meet.jit.si`) and unnecessary form action targets that were not in use. Restricted to self-hosted resources only.
+- **Content Security Policy Hardening**: Removed the unused external meeting integration and unnecessary form action targets. The policy allows only the external services the site currently uses: Google Fonts/Material Icons, Wikipedia API, and the linked YouTube page.
 - **Clickjacking Protection**: Added `frame-ancestors 'none'` directive to prevent the site from being embedded in frames on other domains.
 - **MIME Type Sniffing Prevention**: Added `X-Content-Type-Options: nosniff` meta tag to prevent browsers from MIME-sniffing responses.
 - **Browser Compatibility**: Added `X-UA-Compatible: IE=edge` meta tag to ensure consistent rendering in Internet Explorer.
@@ -33,7 +33,5 @@ Permissions-Policy: geolocation=(), payment=(), usb=()
 Only add `includeSubDomains` to HSTS if all subdomains are HTTPS-ready.
 
 ## Contact limits
-
-The current contact feature opens an email draft; it does not provide server-side spam filtering, rate limiting, CAPTCHA, file scanning, or private database storage. Those protections require a contact backend or a trusted form service.
 
 The current contact feature opens an email draft; it does not provide server-side spam filtering, rate limiting, CAPTCHA, file scanning, or private database storage. Those protections require a contact backend or a trusted form service.
